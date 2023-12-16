@@ -5,12 +5,13 @@ ctx.scale(1,-1);
 function drawSun(){
   ctx.beginPath();
   ctx.arc(0, 0, 30, 0, 2 * Math.PI);
-  ctx.fillStyle = "red";
+  ctx.fillStyle = "Crimson";
   ctx.fill()
 }
 const earth_r = 200;
 function drawEarth(){
   curTime = new Date();
+  document.querySelector("#curTime").innerText = curTime;
   //console.log(curTime);
   var curYear = curTime.getFullYear();
   var newYear = new Date(curYear+"-01-01T00:00:00.000");
@@ -18,7 +19,7 @@ function drawEarth(){
   var oneYear = endYear.getTime() - newYear.getTime();
   //curTime = newYear;
   var fracYear = (curTime.getTime() - newYear.getTime()) / oneYear ;
-  document.querySelector("#fracYear").innerText = "한해 경과율: "+fracYear*100+"%";
+  document.querySelector("#fracYear").innerText = "한해 경과율: "+(fracYear*100).toFixed(10)+"%";
   //console.log(newYear);
   //console.log(endYear);
   //console.log(fracYear);
@@ -30,7 +31,7 @@ function drawEarth(){
   startDay.setSeconds(0);
   startDay.setMilliseconds(0);
   var fracDay = (curTime.getTime() - startDay.getTime())/(1000*60*60*24);
-  document.querySelector("#fracDay").innerText = "하루 경과율: "+fracDay*100+"%";
+  document.querySelector("#fracDay").innerText = "하루 경과율: "+(fracDay*100).toFixed(10)+"%";
   //console.log(curTime);
   //console.log(startDay);
   //console.log(fracDay);
@@ -60,7 +61,7 @@ function drawEarth(){
 
   ctx.beginPath();
   ctx.arc(earth_x, earth_y, 15, Math.PI/2+earth_angle, (3/2)*Math.PI+earth_angle);
-  ctx.fillStyle = "blue";
+  ctx.fillStyle = "RoyalBlue";
   ctx.fill();
 
   ctx.beginPath();
@@ -71,7 +72,7 @@ function drawEarth(){
 const moon_r = 70;
 function drawMoon(){
   var moonPhase = SunCalc.getMoonIllumination(curTime).phase;
-  document.querySelector("#phase").innerText ="한달 경과율: "+moonPhase*100+"%";
+  document.querySelector("#phase").innerText ="한달 경과율: "+(moonPhase*100).toFixed(10)+"%";
   var moon_x = earth_x + moon_r*Math.cos(2*Math.PI*moonPhase+Math.PI+earth_angle);
   var moon_y = earth_y + moon_r*Math.sin(2*Math.PI*moonPhase+Math.PI+earth_angle);
 

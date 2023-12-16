@@ -10,18 +10,25 @@
 
     <style media="screen">
       p{
+        text-align: center;
         font-family:Nanum Myeongjo;
+      }
+      iframe{
+        display:block;
+        margin: auto;
       }
     </style>
 
   </head>
   <body>
     <canvas id="canvas" width="750" height="750"></canvas>
+    <p id="curTime">curTime</p>
     <p id="fracYear">fracYear</p>
     <p id="phase">phase</p>
     <p id="fracDay">fracDay</p>
     <script src="suncalc.js"></script>
     <script src="Nightsky.js"></script>
-    <script type="text/javascript" src="http://moonphases.co.uk/js/widget.js" id="moonphase_widget" widget="" lat="" lng="" date="" tz=""></script>
+    <iframe allowtransparency="yes" scrolling="no" style="border: 1px solid #888; width:190px; height:756px; overflow: hidden;" src="https://in-the-sky.org/widgets/riseset.php?skin=0&locale=0"></iframe>
+    <!-- <script type="text/javascript" src="http://moonphases.co.uk/js/widget.js" id="moonphase_widget" widget="" lat="" lng="" date="" tz=""></script> -->
   </body>
 </html>
