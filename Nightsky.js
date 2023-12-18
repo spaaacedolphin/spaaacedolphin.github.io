@@ -61,6 +61,12 @@ function drawEarth(){
   ctx.stroke();
 
   ctx.beginPath();
+  ctx.moveTo(0,earth_r-5);
+  ctx.lineTo(0,earth_r+5);
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "lightcoral";
+  ctx.stroke();
+  ctx.beginPath();
   ctx.moveTo((earth_r-5)*Math.cos(2*Math.PI*mar_equinox_fracDay+Math.PI/2),(earth_r-5)*Math.sin(2*Math.PI*mar_equinox_fracDay+Math.PI/2));
   ctx.lineTo((earth_r+5)*Math.cos(2*Math.PI*mar_equinox_fracDay+Math.PI/2),(earth_r+5)*Math.sin(2*Math.PI*mar_equinox_fracDay+Math.PI/2));
   ctx.moveTo((earth_r-5)*Math.cos(2*Math.PI*jun_solstice_fracDay+Math.PI/2),(earth_r-5)*Math.sin(2*Math.PI*jun_solstice_fracDay+Math.PI/2));
@@ -91,8 +97,8 @@ function drawEarth(){
   ctx.fill();
 
   ctx.beginPath();
-  ctx.arc(earth_x+(earth_radius*Math.sin(23.44*(Math.PI/180))*Math.cos(2*Math.PI*dec_solstice_fracDay+Math.PI/2)), earth_y+(earth_radius*Math.sin(23.44*(Math.PI/180))*Math.sin(2*Math.PI*dec_solstice_fracDay+Math.PI/2)),1,0,2*Math.PI);
-  ctx.fillStyle = "yellow";
+  ctx.arc(earth_x+(earth_radius*Math.sin(23.44*(Math.PI/180))*Math.cos(2*Math.PI*dec_solstice_fracDay+Math.PI/2)), earth_y+(earth_radius*Math.sin(23.44*(Math.PI/180))*Math.sin(2*Math.PI*dec_solstice_fracDay+Math.PI/2)),1.3,0,2*Math.PI);
+  ctx.fillStyle = "gold";
   ctx.fill();
 }
 const moon_r = 70;
@@ -107,6 +113,19 @@ function drawMoon(){
   ctx.arc(earth_x,earth_y,moon_r,0,2*Math.PI);
   ctx.lineWidth = 1;
   ctx.strokeStyle = "gray";
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(earth_x + (moon_r-5)*Math.cos(Math.PI+earth_angle), earth_y + (moon_r-5)*Math.sin(Math.PI+earth_angle));
+  ctx.lineTo(earth_x + (moon_r+5)*Math.cos(Math.PI+earth_angle), earth_y + (moon_r+5)*Math.sin(Math.PI+earth_angle));
+  ctx.moveTo(earth_x + (moon_r-5)*Math.cos(Math.PI/2+Math.PI+earth_angle), earth_y + (moon_r-5)*Math.sin(Math.PI/2+Math.PI+earth_angle));
+  ctx.lineTo(earth_x + (moon_r+5)*Math.cos(Math.PI/2+Math.PI+earth_angle), earth_y + (moon_r+5)*Math.sin(Math.PI/2+Math.PI+earth_angle));
+  ctx.moveTo(earth_x + (moon_r-5)*Math.cos(Math.PI+Math.PI+earth_angle), earth_y + (moon_r-5)*Math.sin(Math.PI+Math.PI+earth_angle));
+  ctx.lineTo(earth_x + (moon_r+5)*Math.cos(Math.PI+Math.PI+earth_angle), earth_y + (moon_r+5)*Math.sin(Math.PI+Math.PI+earth_angle));
+  ctx.moveTo(earth_x + (moon_r-5)*Math.cos(1.5*Math.PI+Math.PI+earth_angle), earth_y + (moon_r-5)*Math.sin(1.5*Math.PI+Math.PI+earth_angle));
+  ctx.lineTo(earth_x + (moon_r+5)*Math.cos(1.5*Math.PI+Math.PI+earth_angle), earth_y + (moon_r+5)*Math.sin(1.5*Math.PI+Math.PI+earth_angle));
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "lightgray";
   ctx.stroke();
 
   ctx.beginPath();
