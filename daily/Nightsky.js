@@ -45,7 +45,7 @@ function drawEarth(){
   console.log(mar_equinox_fracDay);
 
   earth_x = earth_r*Math.cos(2*Math.PI*fracYear+Math.PI/2);
-  earth_y = earth_r*Math.sin(2*Math.PI*fracYear+Math.PI/2);
+  earth_y = -earth_r*Math.sin(2*Math.PI*fracYear+Math.PI/2);
 
   if(earth_y>=0){
     earth_angle = Math.acos(earth_x/earth_r);
