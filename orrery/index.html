@@ -18,15 +18,23 @@
         text-align: center;
         font-family:Nanum Myeongjo;
       }
+      iframe{
+        display:block;
+        margin: auto;
+      }
     </style>
 
   </head>
   <body>
-    <canvas id="canvas" width="1920" height="1080"></canvas>
+    <canvas id="canvas" width="5000" height="5000"></canvas>
+    <p>외행성 크기의 비율은 로그스케일이다. 내행성끼리는 실제 비율과 같다. 아래 그래프를 참조할것.</p>
+    <iframe src="https://www.geogebra.org/calculator/pgjhhqfj?embed" width="800" height="600" allowfullscreen style="border: 1px solid #e4e4e4;border-radius: 4px;" frameborder="0"></iframe>
     <script src="mercury.js"></script>
     <script src="venus.js"></script>
     <script src="earth.js"></script>
     <script src="mars.js"></script>
+    <script src="jupiter.js"></script>
+    <script src="saturn.js"></script>
     <script src="orrery.js"></script>
   </body>
 </html>
