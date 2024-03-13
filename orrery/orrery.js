@@ -1,4 +1,8 @@
 const canvas = document.querySelector("#canvas");
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+  canvas.width=7000;
+  canvas.height=7000;
+}
 const ctx = canvas.getContext("2d");
 ctx.translate(canvas.width/2, canvas.height/2);
 ctx.scale(1,-1);
