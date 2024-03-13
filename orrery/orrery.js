@@ -2,10 +2,34 @@ const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
 ctx.translate(canvas.width/2, canvas.height/2);
 ctx.scale(1,-1);
-const model_scale = 1.5*10**(-6);
+const model_scale = 1.4*10**(-6);
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-const sun_radius = 35;
+var btn_cnt = 0;
+const rescale_btn = document.querySelector("#rescale_btn");
+function rescale(){
+  ctx.clearRect(-canvas.width/2,-canvas.height/2,canvas.width, canvas.height);
+  switch (btn_cnt%3) {
+    case 0:
+      canvas.scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
+      ctx.scale(0.2,0.2);
+      rescale_btn.innerHTML="Change to 8 Plantes View";
+      break;
+    case 1:
+      canvas.scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
+      ctx.scale(0.5,0.5);
+      rescale_btn.innerHTML="Change to 4 Plantes View";
+      break;
+    case 2:
+      canvas.scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
+      ctx.scale(10,10);
+      rescale_btn.innerHTML="Change to 6 Plantes View";
+      break;
+  }
+  btn_cnt++;
+}
+
+const sun_radius = 32;
 function drawSun(){
   cur_date = new Date();
   cur_date = cur_date.getFullYear()+"-"+months[cur_date.getMonth()]+"-"+cur_date.getDate();
@@ -216,7 +240,7 @@ function drawJupiter(){
 
   ctx.beginPath();
   ctx.arc(jupiter_pos[0], jupiter_pos[1], jupiter_radius, 0, 2*Math.PI);
-  ctx.fillStyle = "peru";
+  ctx.fillStyle = "#b07f35";
   ctx.fill();
 }
 
@@ -256,12 +280,129 @@ function drawSaturn(){
 
   ctx.beginPath();
   ctx.arc(saturn_pos[0], saturn_pos[1], saturn_radius, 0, 2*Math.PI);
-  ctx.fillStyle = "NavajoWhite";
+  ctx.fillStyle = "#eabc48";
   ctx.fill();
+}
+
+const uranus_radius = 19.1;
+const uranus_period = 30685;
+function drawUranus(){
+  var start_idx = uranus_data.indexOf(",", uranus_data.indexOf(cur_date))+2;
+  var end_idx=start_idx;
+  for(i=0;i<3;i++){
+    end_idx = uranus_data.indexOf(",",end_idx)+1;
+  }
+  end_idx--;
+  var uranus_pos=uranus_data.substring(start_idx, end_idx);
+  uranus_pos=uranus_pos.split(",");
+  //console.log(mars_pos);
+  for(i=0;i<3;i++){
+    var temp = uranus_pos[i].split("E");
+    uranus_pos[i]= Number(temp[0])*(10**Number(temp[1]));
+    uranus_pos[i]= uranus_pos[i]*model_scale;
+  }
+  console.log(uranus_pos);
+
+  ctx.beginPath();
+  ctx.moveTo(uranus_pos[0], uranus_pos[1]);
+  for(i=1;i<=uranus_period;i++){
+    var orbit_pos = uranus_data.substring(start_idx+123*i, end_idx+123*i);
+    orbit_pos=orbit_pos.split(",");
+    for(j=0;j<3;j++){
+      var temp = orbit_pos[j].split("E");
+      orbit_pos[j]= Number(temp[0])*(10**Number(temp[1]));
+      orbit_pos[j]= orbit_pos[j]*model_scale;
+    }
+    ctx.lineTo(orbit_pos[0],orbit_pos[1]);
+  }
+  ctx.strokeStyle = "gray";
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(uranus_pos[0], uranus_pos[1], uranus_radius, 0, 2*Math.PI);
+  ctx.fillStyle = "#5580aa";
+  ctx.fill();
+}
+
+const neptune_radius = 18.9;
+const neptune_period = 60189;
+function drawNeptune(){
+  var start_idx = neptune_data.indexOf(",", neptune_data.indexOf(cur_date))+2;
+  var end_idx=start_idx;
+  for(i=0;i<3;i++){
+    end_idx = neptune_data.indexOf(",",end_idx)+1;
+  }
+  end_idx--;
+  var neptune_pos=neptune_data.substring(start_idx, end_idx);
+  neptune_pos=neptune_pos.split(",");
+  //console.log(mars_pos);
+  for(i=0;i<3;i++){
+    var temp = neptune_pos[i].split("E");
+    neptune_pos[i]= Number(temp[0])*(10**Number(temp[1]));
+    neptune_pos[i]= neptune_pos[i]*model_scale;
+  }
+  console.log(neptune_pos);
+
+  ctx.beginPath();
+  ctx.moveTo(neptune_pos[0], neptune_pos[1]);
+  for(i=1;i<=neptune_period;i++){
+    var orbit_pos = neptune_data.substring(start_idx+123*i, end_idx+123*i);
+    orbit_pos=orbit_pos.split(",");
+    for(j=0;j<3;j++){
+      var temp = orbit_pos[j].split("E");
+      orbit_pos[j]= Number(temp[0])*(10**Number(temp[1]));
+      orbit_pos[j]= orbit_pos[j]*model_scale;
+    }
+    ctx.lineTo(orbit_pos[0],orbit_pos[1]);
+  }
+  ctx.strokeStyle = "gray";
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(neptune_pos[0], neptune_pos[1], neptune_radius, 0, 2*Math.PI);
+  ctx.fillStyle = "#366896";
+  ctx.fill();
+}
+
+var clicked=0;
+var clicked_x=0;
+var clicked_y=0;
+var clicked_t=0;
+function defineVar(x,y,t){
+  clicked_x=x;
+  clicked_y=y;
+  clicked_t=t;
+  clicked++;
+}
+canvas.onclick = function (event) {
+  const rect = canvas.getBoundingClientRect()
+  f_clicked_x = event.clientX - rect.left
+  f_clicked_y = event.clientY - rect.top
+  f_clicked_x -= canvas.width/2;
+  f_clicked_y = canvas.height/2 - f_clicked_y;
+  //console.log(f_clicked_x,f_clicked_y)
+  f_clicked_t = new Date();
+  f_clicked_t = f_clicked_t.getTime();
+  defineVar(f_clicked_x,f_clicked_y,f_clicked_t);
+  console.log("clicked");
+}
+
+const c = 299.792458;
+function drawLight(){
+  var cur_t = new Date();
+  cur_t = cur_t.getTime();
+  var r = c*(cur_t-clicked_t)*model_scale;
+  console.log(clicked_x,clicked_y,r);
+  ctx.beginPath();
+  ctx.arc(clicked_x, clicked_y, r, 0, 2*Math.PI);
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = "rgba(255,234,0,0.5)";
+  ctx.stroke();
 }
 
 function update(){
   ctx.clearRect(-canvas.width/2,-canvas.height/2,canvas.width, canvas.height);
+  ctx.lineWidth = 1;
   drawSun();
   drawMercury();
   drawVenus();
@@ -269,10 +410,12 @@ function update(){
   drawMars();
   drawJupiter();
   drawSaturn();
+  drawUranus();
+  drawNeptune();
+  //console.log(clicked);
+  if((clicked%2)==1){
+    drawLight();
+  }
 }
 setInterval(update, 1000);
-canvas.scrollIntoView({
-            behavior: 'auto',
-            block: 'center',
-            inline: 'center'
-        });
+canvas.scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});

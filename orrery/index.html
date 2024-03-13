@@ -22,11 +22,25 @@
         display:block;
         margin: auto;
       }
+      button {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        background-color: #04AA6D; /* Green */
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+      }
     </style>
 
   </head>
   <body>
-    <canvas id="canvas" width="5000" height="5000"></canvas>
+    <canvas id="canvas" width="13000" height="13000"></canvas>
+    <button type="button" id="rescale_btn" onclick="rescale()">Change to 6 Plantes View</button>
     <p>외행성 크기의 비율은 로그스케일이다. 내행성끼리는 실제 비율과 같다. 아래 그래프를 참조할것.</p>
     <iframe src="https://www.geogebra.org/calculator/pgjhhqfj?embed" width="800" height="600" allowfullscreen style="border: 1px solid #e4e4e4;border-radius: 4px;" frameborder="0"></iframe>
     <script src="mercury.js"></script>
@@ -35,6 +49,8 @@
     <script src="mars.js"></script>
     <script src="jupiter.js"></script>
     <script src="saturn.js"></script>
+    <script src="uranus.js"></script>
+    <script src="neptune.js"></script>
     <script src="orrery.js"></script>
   </body>
 </html>
