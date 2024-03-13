@@ -418,7 +418,7 @@ function update(){
   }
 }
 if (window.innerWidth> 0 && window.innerWidth < 700) { 
-  setInterval(update, 2000);
+  setInterval(update, 10000);
 }
 else { 
   setInterval(update, 1000);
