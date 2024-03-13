@@ -417,10 +417,5 @@ function update(){
     drawLight();
   }
 }
-if (window.innerWidth> 0 && window.innerWidth < 700) { 
-  setInterval(update, 10000);
-}
-else { 
-  setInterval(update, 1000);
-} 
+setInterval(update, 1000);
 canvas.scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
