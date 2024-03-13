@@ -12,6 +12,7 @@ const model_scale = 1.4*10**(-6);
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 var btn_cnt = 0;
+var orbit_width = 1;
 const rescale_btn = document.querySelector("#rescale_btn");
 function rescale(){
   ctx.clearRect(device*(-canvas.width/2),device*(-canvas.height/2),device*canvas.width,device*canvas.height);
@@ -19,16 +20,19 @@ function rescale(){
     case 0:
       canvas.scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
       ctx.scale(0.2,0.2);
+      orbit_width=1.5;
       rescale_btn.innerHTML="Change to 8 Plantes View";
       break;
     case 1:
       canvas.scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
       ctx.scale(0.5,0.5);
+      orbit_width=2;
       rescale_btn.innerHTML="Change to 4 Plantes View";
       break;
     case 2:
       canvas.scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
       ctx.scale(10,10);
+      orbit_width=1;
       rescale_btn.innerHTML="Change to 6 Plantes View";
       break;
   }
@@ -408,7 +412,7 @@ function drawLight(){
 
 function update(){
   ctx.clearRect(device*(-canvas.width/2),device*(-canvas.height/2),device*canvas.width, device*canvas.height);
-  ctx.lineWidth = 1;
+  ctx.lineWidth = orbit_width;
   drawSun();
   drawMercury();
   drawVenus();
