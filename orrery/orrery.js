@@ -1,7 +1,9 @@
 const canvas = document.querySelector("#canvas");
+var device=1;
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
   canvas.width=7000;
   canvas.height=7000;
+  device=2;
 }
 const ctx = canvas.getContext("2d");
 ctx.translate(canvas.width/2, canvas.height/2);
@@ -405,7 +407,7 @@ function drawLight(){
 }
 
 function update(){
-  ctx.clearRect(-canvas.width/2,-canvas.height/2,canvas.width, canvas.height);
+  ctx.clearRect(device*(-canvas.width/2),device*(-canvas.height/2),device*canvas.width, device*canvas.height);
   ctx.lineWidth = 1;
   drawSun();
   drawMercury();
