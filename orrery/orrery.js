@@ -410,8 +410,10 @@ function update(){
   drawMars();
   drawJupiter();
   drawSaturn();
-  drawUranus();
-  drawNeptune();
+  if (window.innerWidth > 700){
+    drawUranus();
+    drawNeptune();
+  }
   //console.log(clicked);
   if((clicked%2)==1){
     drawLight();
