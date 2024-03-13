@@ -14,7 +14,7 @@ const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 var btn_cnt = 0;
 const rescale_btn = document.querySelector("#rescale_btn");
 function rescale(){
-  ctx.clearRect(-canvas.width/2,-canvas.height/2,canvas.width, canvas.height);
+  ctx.clearRect(device*(-canvas.width/2),device*(-canvas.height/2),device*canvas.width,device*canvas.height);
   switch (btn_cnt%3) {
     case 0:
       canvas.scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
