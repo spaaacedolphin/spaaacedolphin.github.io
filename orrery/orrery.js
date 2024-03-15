@@ -1,11 +1,18 @@
 const canvas = document.querySelector("#canvas");
 const rescale_btn = document.querySelector("#rescale_btn");
+const mark_toggle_btn = document.querySelector("#mark_toggle_btn");
+const Ap = document.getElementById("Ap");
+const Pe = document.getElementById("Pe");
+const An = document.getElementById("An");
+const Dn = document.getElementById("Dn");
 var device=1;
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
   canvas.width=7000;
   canvas.height=7000;
   rescale_btn.style.fontSize="64px";
   rescale_btn.style.padding="20px 40px";
+  mark_toggle_btn.style.fontSize="64px";
+  mark_toggle_btn.style.padding="20px 40px";
   device=2;
 }
 const ctx = canvas.getContext("2d");
@@ -25,6 +32,25 @@ function getColor(x){
     console.log("under");
   }
   return turbo_map[x];
+}
+
+var mark = false;
+function toggleMark(){
+  mark = !(mark);
+}
+
+function drawMark(type,x,y){
+  if(!(mark)){
+    return;
+  }
+  ctx.scale(1,-1);
+  ctx.drawImage(type,x-8,-y-8,16,16);
+  ctx.scale(1,-1);
+  return;
+}
+
+function distance_to_sun(r){
+  return (r[0]**2+r[1]**2+r[2]**2)**(1/2);
 }
 
 var btn_cnt = 0;
@@ -88,6 +114,8 @@ function drawMercury(){
   //console.log("/"+mercury_data.substring(start_idx+246, end_idx+246)+"/");
 
   var prev_pos = [mercury_pos[0],mercury_pos[1],mercury_pos[2]];
+  var ap_pos = [0,0,0];
+  var pe_pos = [10**10,10**10,10**10];
   for(i=1;i<=mercury_period;i++){
     ctx.beginPath();
     ctx.moveTo(prev_pos[0],prev_pos[1]);
@@ -103,9 +131,27 @@ function drawMercury(){
     //console.log(ctx.strokeStyle);
     ctx.lineTo(orbit_pos[0],orbit_pos[1]);
     ctx.stroke();
+
+    if(prev_pos[2]*orbit_pos[2]<0){
+      if(orbit_pos[2]>prev_pos[2]){
+        drawMark(An,orbit_pos[0],orbit_pos[1]);
+      }
+      else{
+        drawMark(Dn,orbit_pos[0],orbit_pos[1]);
+      }
+    }
+    if(distance_to_sun(orbit_pos)>distance_to_sun(ap_pos)){
+      ap_pos = orbit_pos;
+    }
+    else if(distance_to_sun(orbit_pos)<distance_to_sun(pe_pos)){
+      pe_pos = orbit_pos;
+    }
+
     prev_pos = orbit_pos;
   }
   //ctx.strokeStyle = "gray";
+  drawMark(Ap,ap_pos[0],ap_pos[1]);
+  drawMark(Pe,pe_pos[0],pe_pos[1]);
 
   ctx.beginPath();
   ctx.arc(mercury_pos[0], mercury_pos[1], mercury_radius, 0, 2*Math.PI);
@@ -134,6 +180,8 @@ function drawVenus(){
   console.log(venus_pos);
 
   var prev_pos = [venus_pos[0],venus_pos[1],venus_pos[2]];
+  var ap_pos = [0,0,0];
+  var pe_pos = [10**10,10**10,10**10];
   for(i=1;i<=venus_period;i++){
     ctx.beginPath();
     ctx.moveTo(prev_pos[0], prev_pos[1]);
@@ -149,8 +197,27 @@ function drawVenus(){
     //console.log(ctx.strokeStyle);
     ctx.lineTo(orbit_pos[0],orbit_pos[1]);
     ctx.stroke();
+
+    if(prev_pos[2]*orbit_pos[2]<0){
+      if(orbit_pos[2]>prev_pos[2]){
+        drawMark(An,orbit_pos[0],orbit_pos[1]);
+      }
+      else{
+        drawMark(Dn,orbit_pos[0],orbit_pos[1]);
+      }
+    }
+    if(distance_to_sun(orbit_pos)>distance_to_sun(ap_pos)){
+      ap_pos = orbit_pos;
+    }
+    else if(distance_to_sun(orbit_pos)<distance_to_sun(pe_pos)){
+      pe_pos = orbit_pos;
+    }
+
     prev_pos = orbit_pos;
   }
+
+  drawMark(Ap,ap_pos[0],ap_pos[1]);
+  drawMark(Pe,pe_pos[0],pe_pos[1]);
 
   ctx.beginPath();
   ctx.arc(venus_pos[0], venus_pos[1], venus_radius, 0, 2*Math.PI);
@@ -178,6 +245,8 @@ function drawEarth(){
   console.log(earth_pos);
 
   var prev_pos = [earth_pos[0],earth_pos[1],earth_pos[2]];
+  var ap_pos = [0,0,0];
+  var pe_pos = [10**10,10**10,10**10];
   for(i=1;i<=earth_period;i++){
     ctx.beginPath();
     ctx.moveTo(prev_pos[0], prev_pos[1]);
@@ -193,8 +262,19 @@ function drawEarth(){
     //console.log(ctx.strokeStyle);
     ctx.lineTo(orbit_pos[0],orbit_pos[1]);
     ctx.stroke();
+
+    if(distance_to_sun(orbit_pos)>distance_to_sun(ap_pos)){
+      ap_pos = orbit_pos;
+    }
+    else if(distance_to_sun(orbit_pos)<distance_to_sun(pe_pos)){
+      pe_pos = orbit_pos;
+    }
+
     prev_pos = orbit_pos;
   }
+
+  drawMark(Ap,ap_pos[0],ap_pos[1]);
+  drawMark(Pe,pe_pos[0],pe_pos[1]);
 
   ctx.beginPath();
   ctx.arc(earth_pos[0], earth_pos[1], earth_radius, 0, 2*Math.PI);
@@ -222,6 +302,8 @@ function drawMars(){
   console.log(mars_pos);
 
   var prev_pos = [mars_pos[0],mars_pos[1],mars_pos[2]];
+  var ap_pos = [0,0,0];
+  var pe_pos = [10**10,10**10,10**10];
   for(i=1;i<=mars_period;i++){
     ctx.beginPath();
     ctx.moveTo(prev_pos[0], prev_pos[1]);
@@ -237,8 +319,27 @@ function drawMars(){
     //console.log(ctx.strokeStyle);
     ctx.lineTo(orbit_pos[0],orbit_pos[1]);
     ctx.stroke();
+
+    if(prev_pos[2]*orbit_pos[2]<0){
+      if(orbit_pos[2]>prev_pos[2]){
+        drawMark(An,orbit_pos[0],orbit_pos[1]);
+      }
+      else{
+        drawMark(Dn,orbit_pos[0],orbit_pos[1]);
+      }
+    }
+    if(distance_to_sun(orbit_pos)>distance_to_sun(ap_pos)){
+      ap_pos = orbit_pos;
+    }
+    else if(distance_to_sun(orbit_pos)<distance_to_sun(pe_pos)){
+      pe_pos = orbit_pos;
+    }
+
     prev_pos = orbit_pos;
   }
+
+  drawMark(Ap,ap_pos[0],ap_pos[1]);
+  drawMark(Pe,pe_pos[0],pe_pos[1]);
 
   ctx.beginPath();
   ctx.arc(mars_pos[0], mars_pos[1], mars_radius, 0, 2*Math.PI);
