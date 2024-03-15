@@ -37,6 +37,12 @@ function getColor(x){
 var mark = false;
 function toggleMark(){
   mark = !(mark);
+  if(mark){
+    mark_toggle_btn.innerHTML="Hide marks";
+  }
+  else{
+    mark_toggle_btn.innerHTML="Show marks";
+  }
 }
 
 function drawMark(type,x,y){
