@@ -14,10 +14,55 @@
         text-align: center;
         font-family:Oswald,Nanum Myeongjo;
       }
+      .unit_conversions_div{
+        border: 1px solid lightgray;
+      }
+      .time_box{
+        width: 60px;
+      }
     </style>
 
   </head>
   <body>
+    <button onclick="toggle()">^</button>
+    <div class="unit_conversions_div" id="unit_conversions_div">
+      <div class="unit_conversions_div">
+        Distance conversion <br>
+        <input type="number" oninput="update_distance_input()" class="distance_box" id="distance_conversion_input">
+        <select oninput="update_distance_units()" id="distance_units">
+          <option value="km">km</option>
+          <option value="au">au</option>
+          <option value="ly">ly</option>
+          <option value="pc">pc</option>
+        </select>
+        =
+        <input type="number" class="distance_box" id="distance_conversion_output"> m
+      </div>
+      <br>
+      <div class="unit_conversions_div">
+        Time conversion <br>
+        <input type="number" oninput="update_year()" class="time_box" id="year"> Years <input type="number" oninput="update_month()" class="time_box" id="month"> Months <input type="number" oninput="update_day()" class="time_box" id="day"> Days
+        <br>
+        <input type="number" oninput="update_hour()" class="time_box" id="hour"> Hours <input type="number" oninput="update_minute()" class="time_box" id="minute"> Minutes <input type="number" oninput="update_second()" class="time_box" id="second"> Seconds
+        <br>
+        = <input type="number" id="time_conversion_output"> Seconds
+      </div>
+      <br>
+      <div class="unit_conversions_div">
+        Mass conversion <br>
+        <input type="number" oninput="update_mass_input()" class="mass_box" id="mass_conversion_input">
+        <select oninput="update_mass_units()" id="mass_units">
+          <option value="M☉">M☉ (Solar mass)</option>
+          <option value="MJ">M<sub>J</sub> (Jupiter mass)</option>
+          <option value="M🜨">M🜨 (Earth mass)</option>
+          <option value="M☾">M☾ (Lunar mass)</option>
+        </select>
+        =
+        <input type="number" class="mass_box" id="mass_conversion_output"> Kg
+      </div>
+    </div>
+    <script src="unit_conversions.js"></script>
+
     <div id="glowscript" class="glowscript">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link type="text/css" href="https://www.glowscript.org/css/redmond/2.1/jquery-ui.custom.css" rel="stylesheet" />
@@ -31,7 +76,7 @@
     // START JAVASCRIPT
     ;(function() {;
     var ρσ_modules = {};
-    var num_celest, celest, inputs, spheres;
+    var num_celest, celest, inputs, N_body_start_btn, CR3BP_start_btn, spheres, simulation_mode, num_input;
     ρσ_modules.pythonize = {};
 
     (function(){
@@ -78,7 +123,7 @@
         	else return prompt()
         }
 
-        var version, print, arange, __name__, type, ρσ_ls, x_axis, y_axis, z_axis, color_choices, colors, num_input;
+        var version, print, arange, __name__, type, ρσ_ls, x_axis, y_axis, z_axis, color_choices, colors, N_body_radio, CR3BP_radio;
         version = ρσ_list_decorate([ "3.2", "glowscript" ]);
         Array.prototype['+'] = function(r) {return this.concat(r)}
         Array.prototype['*'] = function(r) {return __array_times_number(this, r)}
@@ -146,9 +191,9 @@
         });
 
         "23";
-        function Data_input() {;
+        function N_body_Data_input() {;
         }
-        Data_input.prototype.__init__ = async function __init__() {
+        N_body_Data_input.prototype.__init__ = async function __init__() {
             var self = this;
             (await sleep(.1));
             "25";
@@ -180,95 +225,288 @@
             "34";
             self.init_velz_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, type: "numeric"})]);
             "35";
-            scene.append_to_caption("\n\n");
+            scene.append_to_caption("\n");
         };
-        if (!Data_input.prototype.__init__.__module__) Object.defineProperties(Data_input.prototype.__init__, {
+        if (!N_body_Data_input.prototype.__init__.__module__) Object.defineProperties(N_body_Data_input.prototype.__init__, {
             __module__ : {value: null}
         });
-        Data_input.__argnames__ = Data_input.prototype.__init__.__argnames__;
-        Data_input.__handles_kwarg_interpolation__ = Data_input.prototype.__init__.__handles_kwarg_interpolation__;
-        Data_input.prototype.__repr__ = async function __repr__() {
+        N_body_Data_input.__argnames__ = N_body_Data_input.prototype.__init__.__argnames__;
+        N_body_Data_input.__handles_kwarg_interpolation__ = N_body_Data_input.prototype.__init__.__handles_kwarg_interpolation__;
+        N_body_Data_input.prototype.__repr__ = async function __repr__() {
                     return "<"["+"](__name__)["+"](".")["+"](this.constructor.name)["+"](" #")["+"](this.ρσ_object_id)["+"](">");
         };
-        Data_input.prototype.__str__ = async function __str__() {
+        N_body_Data_input.prototype.__str__ = async function __str__() {
             return this.__repr__();
         };
-        Object.defineProperty(Data_input.prototype, "__bases__", {value: []});
+        Object.defineProperty(N_body_Data_input.prototype, "__bases__", {value: []});
 
 
         "37";
+        function CR3BP_Data_input() {;
+        }
+        CR3BP_Data_input.prototype.__init__ = async function __init__() {
+            var self = this;
+            "39";
+            scene.append_to_caption("\n");
+            "40";
+            scene.append_to_caption("name\t\tcolor\t\tradius\t\tmass");
+            "41";
+            scene.append_to_caption("\n");
+            (await sleep(.1));
+            "43";
+            self.name_01_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, type: "string"})]);
+            "44";
+            self.color_01_input = ρσ_interpolate_kwargs.call(this, menu, [ρσ_desugar_kwargs({bind: doNothing, choices: color_choices})]);
+            (await sleep(.1));
+            "45";
+            self.radius_01_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, text: "1", type: "numeric"})]);
+            (await sleep(.1));
+            "46";
+            self.mass_01_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, type: "numeric"})]);
+            "47";
+            scene.append_to_caption(" First body\n");
+            (await sleep(.1));
+            "49";
+            self.name_02_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, type: "string"})]);
+            "50";
+            self.color_02_input = ρσ_interpolate_kwargs.call(this, menu, [ρσ_desugar_kwargs({bind: doNothing, choices: color_choices})]);
+            (await sleep(.1));
+            "51";
+            self.radius_02_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, text: "1", type: "numeric"})]);
+            (await sleep(.1));
+            "52";
+            self.mass_02_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, type: "numeric"})]);
+            "53";
+            scene.append_to_caption(" Second body\n");
+            "55";
+            scene.append_to_caption("\n(Both bodies are initially placed on the x axis. First body on -side, Second body on +side)\n");
+            (await sleep(.1));
+            "56";
+            self.distance_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, type: "numeric"})]);
+            "57";
+            scene.append_to_caption(" Distance between 2 bodies\n\n");
+            "60";
+            scene.append_to_caption("[position set method]");
+            "61";
+            self.pos_method_com_radio = ρσ_interpolate_kwargs.call(this, radio, [ρσ_desugar_kwargs({bind: doNothing, text: "relative to center of mass (0,0,0)", name: "pos_method", checked: true})]);
+            "62";
+            self.pos_method_body01_radio = ρσ_interpolate_kwargs.call(this, radio, [ρσ_desugar_kwargs({bind: doNothing, text: "relative to first body", name: "pos_method"})]);
+            "63";
+            self.pos_method_body02_radio = ρσ_interpolate_kwargs.call(this, radio, [ρσ_desugar_kwargs({bind: doNothing, text: "relative to second body", name: "pos_method"})]);
+            "64";
+            scene.append_to_caption("\n");
+            "66";
+            scene.append_to_caption("[velocity set method]");
+            "67";
+            self.vel_method_rotating_radio = ρσ_interpolate_kwargs.call(this, radio, [ρσ_desugar_kwargs({bind: doNothing, text: "in rotating frame of reference", name: "vel_method", checked: true})]);
+            "68";
+            self.vel_method_inertial_radio = ρσ_interpolate_kwargs.call(this, radio, [ρσ_desugar_kwargs({bind: doNothing, text: "in inertial frame of reference", name: "vel_method"})]);
+            "69";
+            scene.append_to_caption("\n");
+            "71";
+            scene.append_to_caption("\n(Third body has 0 mass)\n");
+            "72";
+            scene.append_to_caption("name\t\tcolor\t\tradius\t\tposx0\t\tposy0\t\tposz0\tvelx0\t\tvely0\t\tvelz0");
+            "73";
+            scene.append_to_caption("\n");
+            (await sleep(.1));
+            "74";
+            self.name_03_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, type: "string"})]);
+            "75";
+            self.color_03_input = ρσ_interpolate_kwargs.call(this, menu, [ρσ_desugar_kwargs({bind: doNothing, choices: color_choices})]);
+            (await sleep(.1));
+            "76";
+            self.radius_03_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, text: "1", type: "numeric"})]);
+            (await sleep(.1));
+            "77";
+            self.init_posx_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, type: "numeric"})]);
+            (await sleep(.1));
+            "78";
+            self.init_posy_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, type: "numeric"})]);
+            (await sleep(.1));
+            "79";
+            self.init_posz_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, type: "numeric"})]);
+            (await sleep(.1));
+            "80";
+            self.init_velx_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, type: "numeric"})]);
+            (await sleep(.1));
+            "81";
+            self.init_vely_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, type: "numeric"})]);
+            (await sleep(.1));
+            "82";
+            self.init_velz_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, type: "numeric"})]);
+        };
+        if (!CR3BP_Data_input.prototype.__init__.__module__) Object.defineProperties(CR3BP_Data_input.prototype.__init__, {
+            __module__ : {value: null}
+        });
+        CR3BP_Data_input.__argnames__ = CR3BP_Data_input.prototype.__init__.__argnames__;
+        CR3BP_Data_input.__handles_kwarg_interpolation__ = CR3BP_Data_input.prototype.__init__.__handles_kwarg_interpolation__;
+        CR3BP_Data_input.prototype.__repr__ = async function __repr__() {
+                    return "<"["+"](__name__)["+"](".")["+"](this.constructor.name)["+"](" #")["+"](this.ρσ_object_id)["+"](">");
+        };
+        CR3BP_Data_input.prototype.__str__ = async function __str__() {
+            return this.__repr__();
+        };
+        Object.defineProperty(CR3BP_Data_input.prototype, "__bases__", {value: []});
+
+
+        "84";
         async function set_num_celest(evt) {
             var ρσ_ls, _GS_1, i;
-            "38";
-            "39";
+            "85";
+            "86";
             num_celest = num_input.number;
-            "40";
-            "41";
+            "87";
+            "88";
             celest = ρσ_list_decorate([]);
-            "42";
-            "43";
+            "89";
+            "90";
             inputs = ρσ_list_decorate([]);
-            "44";
+            "91";
+            scene.caption = str(num_celest)["+"]("-body problem");
+            "92";
             scene.append_to_caption("\n\n");
-            "45";
-            scene.append_to_caption("name\t\tcolor\t\tradius\t\tmass\t\tposx0\t\tposy0\t\tposz0\t\tvelx0\t\tvely0\t\tvelz0");
-            "46";
-            scene.append_to_caption("\n\n");
-            "47";
+            "93";
+            scene.append_to_caption("name\t\tcolor\t\tradius\t\tmass\t\tposx0\t\tposy0\t\tposz0\tvelx0\t\tvely0\t\tvelz0");
+            "94";
+            scene.append_to_caption("\n");
+            "95";
             for (var ρσ_Index1 = 0; ρσ_Index1["<"](num_celest); ρσ_Index1++) {
                 i = ρσ_Index1;
-                "48";
+                "96";
                 _GS_1 = new Celesetial;
                 (await _GS_1.__init__());
                 celest.append(_GS_1);
-                "49";
-                _GS_1 = new Data_input;
+                "97";
+                _GS_1 = new N_body_Data_input;
                 (await _GS_1.__init__());
                 inputs.append(_GS_1);
             }
-            "50";
-            ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({bind: start, text: "Start Simulation"})]);
+            "98";
+            scene.append_to_caption("\n");
+            "99";
+            "100";
+            N_body_start_btn = ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({bind: N_body_start, text: "Start Simulation"})]);
         };
         if (!set_num_celest.__argnames__) Object.defineProperties(set_num_celest, {
             __argnames__ : {value: ["evt"]},
             __module__ : {value: null}
         });
 
-        "52";
-        async function start(evt) {
+        "102";
+        async function get_CR3BP_inputs() {
+            var ρσ_ls, _GS_1, _GS_2, _GS_3;
+            "103";
+            "104";
+            num_celest = 3;
+            "105";
+            "106";
+            _GS_1 = new Celesetial;
+            (await _GS_1.__init__());
+            _GS_2 = new Celesetial;
+            (await _GS_2.__init__());
+            _GS_3 = new Celesetial;
+            (await _GS_3.__init__());
+            celest = ρσ_list_decorate([ _GS_1, _GS_2, _GS_3 ]);
+            "107";
+            "108";
+            _GS_1 = new CR3BP_Data_input;
+            (await _GS_1.__init__());
+            inputs = _GS_1;
+            "109";
+            scene.append_to_caption("\n\n");
+            "110";
+            "111";
+            CR3BP_start_btn = ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({bind: CR3BP_start, text: "Start Simulation"})]);
+        };
+        if (!get_CR3BP_inputs.__module__) Object.defineProperties(get_CR3BP_inputs, {
+            __module__ : {value: null}
+        });
+
+        "113";
+        async function N_body_start(evt) {
             var ρσ_ls, i;
-            "53";
-            "54";
+            "114";
+            "115";
             spheres = ρσ_list_decorate([]);
-            "55";
+            "116";
+            N_body_start_btn.remove();
+            "117";
             for (var ρσ_Index2 = 0; ρσ_Index2["<"](num_celest); ρσ_Index2++) {
                 i = ρσ_Index2;
-                "56";
+                "118";
                 celest[(typeof i === "number" && i["<"](0)) ? celest.length["+"](i) : i].name = inputs[(typeof i === "number" && i["<"](0)) ? inputs.length["+"](i) : i].name_input.text;
-                "57";
+                "119";
                 celest[(typeof i === "number" && i["<"](0)) ? celest.length["+"](i) : i].color = colors[ρσ_bound_index(inputs[(typeof i === "number" && i["<"](0)) ? inputs.length["+"](i) : i].color_input.index, colors)];
-                "58";
+                "120";
                 celest[(typeof i === "number" && i["<"](0)) ? celest.length["+"](i) : i].radius = inputs[(typeof i === "number" && i["<"](0)) ? inputs.length["+"](i) : i].radius_input.number;
-                "59";
+                "121";
                 celest[(typeof i === "number" && i["<"](0)) ? celest.length["+"](i) : i].mass = inputs[(typeof i === "number" && i["<"](0)) ? inputs.length["+"](i) : i].mass_input.number;
-                "60";
+                "122";
                 celest[(typeof i === "number" && i["<"](0)) ? celest.length["+"](i) : i].pos = vec(inputs[(typeof i === "number" && i["<"](0)) ? inputs.length["+"](i) : i].init_posx_input.number, inputs[(typeof i === "number" && i["<"](0)) ? inputs.length["+"](i) : i].init_posy_input.number, inputs[(typeof i === "number" && i["<"](0)) ? inputs.length["+"](i) : i].init_posz_input.number);
-                "61";
+                "123";
                 celest[(typeof i === "number" && i["<"](0)) ? celest.length["+"](i) : i].vel = vec(inputs[(typeof i === "number" && i["<"](0)) ? inputs.length["+"](i) : i].init_velx_input.number, inputs[(typeof i === "number" && i["<"](0)) ? inputs.length["+"](i) : i].init_vely_input.number, inputs[(typeof i === "number" && i["<"](0)) ? inputs.length["+"](i) : i].init_velz_input.number);
-                "62";
+                "124";
                 spheres.append(ρσ_interpolate_kwargs.call(this, sphere, [ρσ_desugar_kwargs({pos: celest[(typeof i === "number" && i["<"](0)) ? celest.length["+"](i) : i].pos, radius: celest[(typeof i === "number" && i["<"](0)) ? celest.length["+"](i) : i].radius, color: celest[(typeof i === "number" && i["<"](0)) ? celest.length["+"](i) : i].color, make_trail: true, retain: 1e3})]));
             }
         };
-        if (!start.__argnames__) Object.defineProperties(start, {
+        if (!N_body_start.__argnames__) Object.defineProperties(N_body_start, {
             __argnames__ : {value: ["evt"]},
             __module__ : {value: null}
         });
 
-        (await sleep(.1));
-        "66";
-        num_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, prompt: "Number of Celstial Bodies", type: "numeric"})]);
-        "67";
-        ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({bind: set_num_celest, text: "Confirm"})]);
+        "126";
+        async function CR3BP_start(evt) {
+            "127";
+            CR3BP_start_btn.remove();
+        };
+        if (!CR3BP_start.__argnames__) Object.defineProperties(CR3BP_start, {
+            __argnames__ : {value: ["evt"]},
+            __module__ : {value: null}
+        });
+
+        "129";
+        async function set_simulation_mode(evt) {
+            "130";
+            "131";
+            if (N_body_radio.checked) {
+                "132";
+                simulation_mode = "N-body";
+                "133";
+                scene.caption = simulation_mode["+"]("\n");
+                "135";
+                (await sleep(.1));
+                "136";
+                num_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, prompt: "Number of Celstial Bodies", type: "numeric"})]);
+                "137";
+                ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({bind: set_num_celest, text: "Confirm"})]);
+                "138";
+            } else if (CR3BP_radio.checked) {
+                "139";
+                simulation_mode = "CR3BP";
+                "140";
+                scene.caption = simulation_mode["+"]("\n");
+                "141";
+                (await get_CR3BP_inputs());
+            }
+        };
+        if (!set_simulation_mode.__argnames__) Object.defineProperties(set_simulation_mode, {
+            __argnames__ : {value: ["evt"]},
+            __module__ : {value: null}
+        });
+
+        "143";
+        scene.append_to_caption("[Simulation_mode]");
+        "144";
+        N_body_radio = ρσ_interpolate_kwargs.call(this, radio, [ρσ_desugar_kwargs({bind: doNothing, text: "N-body", name: "simulation_mode", checked: true})]);
+        "145";
+        CR3BP_radio = ρσ_interpolate_kwargs.call(this, radio, [ρσ_desugar_kwargs({bind: doNothing, text: "CR3BP", name: "simulation_mode"})]);
+        "146";
+        scene.append_to_caption(" ");
+        "147";
+        ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({bind: set_simulation_mode, text: "Select"})]);
+        "148";
+        scene.append_to_caption("\n");
     };
     if (!__main__.__module__) Object.defineProperties(__main__, {
         __module__ : {value: null}
