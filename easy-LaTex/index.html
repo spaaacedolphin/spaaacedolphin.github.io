@@ -10,21 +10,14 @@
     <link rel="stylesheet" href="../scrollbar.css">
 
     <style media="screen">
-      html, body{
-        height: 100%;
-      }
-
-      #LaTex_txt{
-        width:100%;
-        height:80%;
-      }
 
       #LaTex_area{
         position: fixed;
         top: 0;
         left: 0;
-        width: 100%;
+        width: 95%;
         height: 20%;
+        overflow: auto;
         background-color:white;
         border: 1px dotted lightgray;
         padding: 0px 20px;
@@ -34,23 +27,38 @@
         font-size: 16px;
       }
 
-      .blank_area{
-        width: 100%;
-        height: 20%;
+      .LaTex_txt{
+        width: 90%;
+        height: auto;
+        border-radius: 10px;
+        border: 1px solid lightgray;
+        font-family:Oswald;
+        font-size: 20px;
       }
 
-      .input_area{
-        width: 100%;
+      #input_area{
+        position: fixed;
+        top: 20%;
+        left: 0;
+        width: 95%;
         height: 30%;
+        overflow: auto;
+        background-color:white;
+        border: 1px dotted lightgray;
+        padding: 0px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
       }
 
       #operator_area {
         position: fixed;
         bottom: 0;
         left: 0;
-        width: 100%;
+        width: 95%;
         height: 50%;
-        overflow: scroll;
+        overflow: auto;
         background-color:white;
         border: 1px dotted lightgray;
         padding: 0px 20px;
@@ -94,129 +102,112 @@
   </head>
   <body>
     <div id="LaTex_area">
-      <textarea id="LaTex_txt"></textarea>
+      <div id="inner_LaTex_area">
+
+      </div>
+      <button type="button" class="operator_btn" onclick="addMath()">+ Math</button>
+      <button type="button" class="operator_btn" onclick="addText()">+ Text</button>
+      <textarea id="translated_LaTex" class="LaTex_txt" style="display:none; height:90%;"></textarea>
     </div>
 
-    <div class="blank_area">
-
-    </div>
-    <div class="input_area">
-
-    </div>
-
-    <div class="blank_area" id="a/b_input">
-
-    </div>
-    <div class="input_area">
-      a/b_input
-    </div>
-
-    <div class="blank_area" id="^_input">
-
-    </div>
-    <div class="input_area">
-      ^_input
-    </div>
-
-    <div class="blank_area">
-
-    </div>
-    <div class="input_area">
+    <div id="input_area">
 
     </div>
 
     <div id="operator_area">
 
-      <button type="button" class="toggle_btn" id="arithmetic_btn">arithmetic</button>
+      <button type="button" class="toggle_btn" id="arithmetic_btn" onclick="toggle_btn_do(this)">arithmetic</button>
       <hr>
       <div id="arithmetic">
         <div class="button_grid">
-          <button type="button" class="operator_btn" id="">+</button>
-          <button type="button" class="operator_btn" id="">-</button>
-          <button type="button" class="operator_btn" id="">·</button>
-          <a href="#a/b_input" class="operator_btn" id="">a/b</a>
-          <a href="#^_input" class="operator_btn" id="">^</a>
-          <a href="#" class="operator_btn" id="">subscript</a>
-          <a href="#" class="operator_btn" id="">√</a>
-          <a href="#" class="operator_btn" id="">nth root</a>
-          <a href="#" class="operator_btn" id="">( ) / { } / [ ]</a>
+          <button type="button" class="operator_btn" id="" onclick="type_symbols(this)">+</button>
+          <button type="button" class="operator_btn" id="" onclick="type_symbols(this)">-</button>
+          <button type="button" class="operator_btn" id="" onclick="type_symbols(this)">·</button>
+          <button type="button" class="operator_btn" id="a/b" onclick="type_operators(this)">a/b</button>
+          <button type="button" class="operator_btn" id="^" onclick="type_operators(this)">^</button>
+          <button type="button" class="operator_btn" id="subscript" onclick="type_operators(this)">subscript</button>
+          <button type="button" class="operator_btn" id="√" onclick="type_operators(this)">√</button>
+          <button type="button" class="operator_btn" id="nth_root" onclick="type_operators(this)">nth root</button>
+          <button type="button" class="operator_btn" id="()" onclick="type_operators(this)">( ) / { } / [ ]</button>
+          <button type="button" class="operator_btn" id="=" onclick="type_symbols(this)">=</button>
         </div>
       </div>
 
-      <button type="button" class="toggle_btn" id="symbols_btn">symbols</button>
+      <button type="button" class="toggle_btn" id="symbols_btn" onclick="toggle_btn_do(this)">symbols</button>
       <hr>
       <div id="symbols">
         <div class="button_grid">
-          <button type="button" class="operator_btn" id="">α</button>
-          <button type="button" class="operator_btn" id="">β</button>
-          <button type="button" class="operator_btn" id="">γ</button>
-          <button type="button" class="operator_btn" id="">δ</button>
-          <button type="button" class="operator_btn" id="">ε</button>
-          <button type="button" class="operator_btn" id="">θ</button>
-          <button type="button" class="operator_btn" id="">φ</button>
-          <button type="button" class="operator_btn" id="">π</button>
-          <button type="button" class="operator_btn" id="">ω</button>
-          <button type="button" class="operator_btn" id="">τ</button>
-          <button type="button" class="operator_btn" id="">λ</button>
-          <button type="button" class="operator_btn" id="">μ</button>
-          <button type="button" class="operator_btn" id="">ρ</button>
-          <button type="button" class="operator_btn" id="">σ</button>
-          <button type="button" class="operator_btn" id="">ψ</button>
+          <button type="button" class="operator_btn" id="symbol_0" onclick="type_symbols(this)">α</button>
+          <button type="button" class="operator_btn" id="symbol_1" onclick="type_symbols(this)">β</button>
+          <button type="button" class="operator_btn" id="symbol_2" onclick="type_symbols(this)">γ</button>
+          <button type="button" class="operator_btn" id="symbol_3" onclick="type_symbols(this)">δ</button>
+          <button type="button" class="operator_btn" id="symbol_4" onclick="type_symbols(this)">ε</button>
+          <button type="button" class="operator_btn" id="symbol_5" onclick="type_symbols(this)">θ</button>
+          <button type="button" class="operator_btn" id="symbol_6" onclick="type_symbols(this)">φ</button>
+          <button type="button" class="operator_btn" id="symbol_7" onclick="type_symbols(this)">π</button>
+          <button type="button" class="operator_btn" id="symbol_8" onclick="type_symbols(this)">ω</button>
+          <button type="button" class="operator_btn" id="symbol_9" onclick="type_symbols(this)">τ</button>
+          <button type="button" class="operator_btn" id="symbol_10" onclick="type_symbols(this)">λ</button>
+          <button type="button" class="operator_btn" id="symbol_11" onclick="type_symbols(this)">μ</button>
+          <button type="button" class="operator_btn" id="symbol_12" onclick="type_symbols(this)">ρ</button>
+          <button type="button" class="operator_btn" id="symbol_13" onclick="type_symbols(this)">σ</button>
+          <button type="button" class="operator_btn" id="symbol_14" onclick="type_symbols(this)">ψ</button>
         </div>
-        <button type="button" class="operator_btn" style="width: 100%" id="">uppercase</button>
+        <button type="button" class="operator_btn" style="width: 100%" id="case_change_btn" onclick="change_case()">uppercase</button>
       </div>
-      <button type="button" class="toggle_btn" id="functions_btn">functions</button>
+      <button type="button" class="toggle_btn" id="functions_btn" onclick="toggle_btn_do(this)">functions</button>
       <hr>
       <div id="functions">
         <div class="button_grid">
-          <a href="#" class="operator_btn" id="">sin</a>
-          <a href="#" class="operator_btn" id="">cos</a>
-          <a href="#" class="operator_btn" id="">tan</a>
-          <a href="#" class="operator_btn" id="">log</a>
-          <a href="#" class="operator_btn" id="">ln</a>
-          <a href="#" class="operator_btn" id="">| |</a>
-          <button type="button" class="operator_btn" id="">!</button>
-          <a href="#" class="operator_btn" id="">nPk</a>
-          <a href="#" class="operator_btn" id="">nCk</a>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">sin</button>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">cos</button>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">tan</button>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">log</button>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">ln</button>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">| |</button>
+          <button type="button" class="operator_btn" id="" onclick="type_symbols(this)">!</button>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">nPk</button>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">nCk</button>
         </div>
       </div>
 
-      <button type="button" class="toggle_btn" id="calculus_btn">calculus</button>
+      <button type="button" class="toggle_btn" id="calculus_btn" onclick="toggle_btn_do(this)">calculus</button>
       <hr>
       <div id="calculus">
         <div class="button_grid">
-          <a href="#" class="operator_btn" id="">dy/dx</a>
-          <a href="#" class="operator_btn" id="">∫ dx</a>
-          <a href="#" class="operator_btn" id="">lim</a>
-          <a href="#" class="operator_btn" id="">approach</a>
-          <a href="#" class="operator_btn" id="">Δ</a>
-          <a href="#" class="operator_btn" id="">∞</a>
-          <a href="#" class="operator_btn" id="">' / '' / (n)</a>
-          <a href="#" class="operator_btn" id="">df/dt</a>
-          <a href="#" class="operator_btn" id="">∂f/∂x</a>
-          <a href="#" class="operator_btn" id="">∇</a>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">dy/dx</button>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">∫ dx</button>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">lim</button>
+          <button type="button" class="operator_btn" id="" onclick="type_symbols(this)">→</button>
+          <button type="button" class="operator_btn" id="" onclick="type_symbols(this)">Δ</button>
+          <button type="button" class="operator_btn" id="" onclick="type_symbols(this)">∞</button>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">' / '' / (n)</button>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">df/dt</button>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">∂f/∂x</button>
+          <button type="button" class="operator_btn" id="" onclick="type_symbols(this)">∇</button>
         </div>
       </div>
 
-      <button type="button" class="toggle_btn" id="vector_btn">vector</button>
+      <button type="button" class="toggle_btn" id="vector_btn" onclick="toggle_btn_do(this)">vector</button>
       <hr>
       <div id="vector">
         <div class="button_grid">
-          <a href="#" class="operator_btn" id="">arrow</a>
-          <a href="#" class="operator_btn" id="">hat</a>
-          <a href="#" class="operator_btn" id="">·</a>
-          <a href="#" class="operator_btn" id="">×</a>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">arrow</button>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">hat</button>
+          <button type="button" class="operator_btn" id="" onclick="type_symbols(this)">·</button>
+          <button type="button" class="operator_btn" id="" onclick="type_symbols(this)">×</button>
         </div>
       </div>
 
-      <button type="button" class="toggle_btn" id="summation_btn">summation</button>
+      <button type="button" class="toggle_btn" id="summation_btn" onclick="toggle_btn_do(this)">summation</button>
       <hr>
       <div id="summation">
         <div class="button_grid">
-          <a href="#" class="operator_btn" id="">Σ</a>
-          <button type="button" class="operator_btn" id="">...</button>
+          <button type="button" class="operator_btn" id="" onclick="type_operators(this)">Σ</button>
+          <button type="button" class="operator_btn" id="" onclick="type_symbols(this)">…</button>
         </div>
       </div>
     </div>
+    <script src="easy_LaTex.js"></script>
   </body>
 </html>
