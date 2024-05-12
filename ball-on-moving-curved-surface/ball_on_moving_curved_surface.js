@@ -48,7 +48,7 @@ async function __main__() {
     	else return prompt()
     }
 
-    var version, print, arange, __name__, type, ρσ_ls, x_axis, y_axis, z_axis, g, dt, surface_r_input, surface_m_input, left_len_input, up_len_input, ball_r_input, ball_m_input, ball_v0_input, conditions_set, confirm_btn, _GS_1, surface_01, ball_01, time, count, time_scale, value_graph, acc_func, acc_value;
+    var version, print, arange, __name__, type, ρσ_ls, x_axis, y_axis, z_axis, g, dt, surface_r_input, surface_m_input, left_len_input, up_len_input, ball_r_input, ball_m_input, ball_v0_input, conditions_set, confirm_btn, _GS_1, surface_01, ball_01, time, count, time_scale, acc_graph, acc_func, x_momentum_graph, x_momentum_ball_func, x_momentum_surface_func, x_momentum_total_func, acc_value, ball_01_x_momentum, surface_01_x_momentum;
     version = ρσ_list_decorate([ "3.2", "glowscript" ]);
     Array.prototype['+'] = function(r) {return this.concat(r)}
     Array.prototype['*'] = function(r) {return __array_times_number(this, r)}
@@ -78,12 +78,14 @@ async function __main__() {
         "12";
         self.pos = pos;
         "13";
-        self.vel = vel;
+        self.prev_pos = pos;
         "14";
-        self.acc = vec(0, 0, 0);
+        self.vel = vel;
         "15";
-        self.mass = mass;
+        self.acc = vec(0, 0, 0);
         "16";
+        self.mass = mass;
+        "17";
         self.radius = radius;
     };
     if (!Ball.prototype.__init__.__argnames__) Object.defineProperties(Ball.prototype.__init__, {
@@ -94,15 +96,17 @@ async function __main__() {
     Ball.__handles_kwarg_interpolation__ = Ball.prototype.__init__.__handles_kwarg_interpolation__;
     Ball.prototype.make_obj = async function make_obj() {
         var self = this;
-        "19";
-        self.obj = ρσ_interpolate_kwargs.call(this, sphere, [ρσ_desugar_kwargs({pos: self.pos, radius: self.radius, color: color.yellow, make_trail: true, trail_radius: self.radius["*"](.1)})]);
+        "20";
+        self.obj = ρσ_interpolate_kwargs.call(this, sphere, [ρσ_desugar_kwargs({pos: self.pos, radius: self.radius, color: color.yellow, make_trail: true, trail_radius: self.radius["*"](.1), nf: vec(0, 0, 0)})]);
+        "21";
+        ρσ_interpolate_kwargs.call(this, attach_arrow, [self.obj, "nf"].concat([ρσ_desugar_kwargs({scale: .1, shaftwidth: self.radius["*"](.2)})]));
     };
     if (!Ball.prototype.make_obj.__module__) Object.defineProperties(Ball.prototype.make_obj, {
         __module__ : {value: null}
     });
     Ball.prototype.reset_acc = async function reset_acc() {
         var self = this;
-        "22";
+        "24";
         self.acc = vec(0, 0, 0);
     };
     if (!Ball.prototype.reset_acc.__module__) Object.defineProperties(Ball.prototype.reset_acc, {
@@ -110,7 +114,7 @@ async function __main__() {
     });
     Ball.prototype.apply_gravity = async function apply_gravity() {
         var self = this;
-        "25";
+        "27";
         self.acc = self.acc["+"](vec(0, 1["-u"]()["*"](g), 0));
     };
     if (!Ball.prototype.apply_gravity.__module__) Object.defineProperties(Ball.prototype.apply_gravity, {
@@ -118,71 +122,79 @@ async function __main__() {
     });
     Ball.prototype.apply_normal_force_from_surface = async function apply_normal_force_from_surface(surface) {
         var self = this;
-        var ρσ_ls, r_from_center, unit_out_normal_vec, out_normal_vel, out_normal_acc;
-        "29";
-        r_from_center = self.pos["-"](1["*"](surface.center));
+        var ρσ_ls, r_from_center, unit_out_normal_vec, out_normal_acc, temp;
         "31";
+        r_from_center = self.pos["-"](1["*"](surface.center));
+        "33";
         if (mag(r_from_center)[">="](surface.radius["-"](1["*"](self.radius))) && self.pos.x[">"](surface.pos.x) && self.pos.y["<"](surface.radius)) {
-            "33";
+            "35";
             unit_out_normal_vec = hat(r_from_center);
-            "34";
-            self.pos = surface.center["+"](surface.radius["-"](1["*"](self.radius))["*"](unit_out_normal_vec));
             "36";
-            out_normal_vel = dot(self.vel, unit_out_normal_vec);
-            "37";
-            if (out_normal_vel[">"](0)) {
-                "38";
-                self.vel = self.vel["-"](1["*"](out_normal_vel)["*"](unit_out_normal_vec));
-            }
-            "40";
-            out_normal_acc = dot(self.acc, unit_out_normal_vec);
-            "41";
-            if (out_normal_acc[">"](0)) {
-                "42";
-                self.acc = self.acc["-"](1["*"](out_normal_acc)["*"](unit_out_normal_vec));
-            }
+            self.pos = surface.center["+"](surface.radius["-"](1["*"](self.radius))["*"](unit_out_normal_vec));
+            "\n            out_normal_vel = dot(self.vel,unit_out_normal_vec)\n            if out_normal_vel>0:\n                self.vel = self.vel - out_normal_vel*unit_out_normal_vec\n            ";
+            "43";
+            self.vel = self.pos["-"](1["*"](self.prev_pos))["/"](dt);
             "44";
-            return (await surface.apply_normal_force_from_ball(self.mass["*"](out_normal_acc)["*"](unit_out_normal_vec)));
-            "46";
+            surface.acc = surface.acc["+"](1["-u"]()["*"](self.mass)["/"](surface.mass)["*"](self.vel.x["-"](1["*"](ball_v0)))["-"](1["*"](surface.vel.x))["/"](dt)["*"](vec(1, 0, 0)));
+            "\n            unit_tangent_vec = cross(vec(0,0,1),unit_out_normal_vec)\n            self.vel = mag(self.vel)*unit_tangent_vec\n            ";
+            "49";
+            out_normal_acc = dot(self.acc, unit_out_normal_vec);
+            "51";
+            if (out_normal_acc[">"](0)) {
+                "52";
+                self.acc = self.acc["-"](1["*"](out_normal_acc)["*"](unit_out_normal_vec));
+                "54";
+                self.obj.nf = 1["-u"]()["*"](self.mass)["*"](out_normal_acc)["*"](unit_out_normal_vec);
+                "55";
+                return (await surface.apply_normal_force_from_ball(self.mass["*"](out_normal_acc)["*"](unit_out_normal_vec)));
+            }
+            "\n            if out_normal_acc>out_normal_surf_acc:\n                self.acc = self.acc - (out_normal_acc-out_normal_surf_acc)*unit_out_normal_vec\n            \n            displacement_dt = self.pos - r_from_center + surface.center\n            vel_dt = displacement_dt / dt\n            acc_dt = (vel_dt-self.vel)/dt\n            self.acc = self.acc + acc_dt\n            ";
+            "71";
         }
         if (self.pos.x[">"](surface.pos.x["-"](1["*"](surface.left_len))) && self.pos.x["<="](surface.pos.x)) {
-            "47";
+            "72";
             if (self.pos.y["<"](self.radius)) {
-                "48";
+                "73";
                 self.pos.y = self.radius;
-                "49";
+                "74";
                 if (self.vel.y["<"](0)) {
-                    "50";
+                    "75";
                     self.vel.y = 0;
-                    "51";
+                    "76";
                 }
                 if (self.acc.y["<"](0)) {
-                    "52";
+                    "77";
                     self.acc.y = 0;
-                    "54";
                 }
+                "78";
+                return 0;
+                "80";
             }
         }
         if (self.pos.y[">="](self.radius) && self.pos.y["<"](surface.radius["+"](surface.up_len))) {
-            "55";
+            "81";
             if (self.pos.x[">"](surface.pos.x["+"](surface.radius)["-"](1["*"](self.radius)))) {
-                "56";
+                "82";
                 self.pos.x = surface.pos.x["+"](surface.radius)["-"](1["*"](self.radius));
-                "57";
-                if (self.vel.x[">"](0)) {
-                    "58";
-                    self.vel.x = 0;
-                    "59";
+                "83";
+                if (self.vel.x[">"](surface.vel.x)) {
+                    "84";
+                    self.vel.x = surface.vel.x;
+                    "85";
                 }
                 if (self.acc.x[">"](0)) {
-                    "60";
-                    (await surface.apply_normal_force_from_ball(self.mass["*"](self.acc)));
-                    "61";
+                    "86";
+                    temp = self.acc;
+                    "87";
                     self.acc.x = 0;
+                    "88";
+                    return (await surface.apply_normal_force_from_ball(self.mass["*"](temp)));
                 }
             }
         }
-        "62";
+        "89";
+        self.obj.nf = vec(0, 0, 0);
+        "90";
         return 0;
     };
     if (!Ball.prototype.apply_normal_force_from_surface.__argnames__) Object.defineProperties(Ball.prototype.apply_normal_force_from_surface, {
@@ -191,7 +203,7 @@ async function __main__() {
     });
     Ball.prototype.update_vel = async function update_vel() {
         var self = this;
-        "65";
+        "94";
         self.vel = self.vel["+"](self.acc["*"](dt));
     };
     if (!Ball.prototype.update_vel.__module__) Object.defineProperties(Ball.prototype.update_vel, {
@@ -199,7 +211,9 @@ async function __main__() {
     });
     Ball.prototype.update_pos = async function update_pos() {
         var self = this;
-        "68";
+        "97";
+        self.prev_pos = self.pos;
+        "98";
         self.pos = self.pos["+"](self.vel["*"](dt));
     };
     if (!Ball.prototype.update_pos.__module__) Object.defineProperties(Ball.prototype.update_pos, {
@@ -207,7 +221,7 @@ async function __main__() {
     });
     Ball.prototype.update_obj = async function update_obj() {
         var self = this;
-        "71";
+        "101";
         self.obj.pos = self.pos;
     };
     if (!Ball.prototype.update_obj.__module__) Object.defineProperties(Ball.prototype.update_obj, {
@@ -229,21 +243,21 @@ async function __main__() {
 
 
 
-    "73";
+    "104";
     async function arc_shape(r, start, end) {
         var ρσ_ls, output, theta;
-        "74";
+        "105";
         output = ρσ_list_decorate([]);
-        "75";
+        "106";
         theta = start;
-        "76";
+        "107";
         while (theta["<="](end)) {
-            "77";
+            "108";
             output.append(ρσ_list_decorate([ r["*"](cos(theta)), r["*"](sin(theta)) ]));
-            "78";
+            "109";
             theta=theta["+"](.01);
         }
-        "79";
+        "110";
         return output;
     };
     if (!arc_shape.__argnames__) Object.defineProperties(arc_shape, {
@@ -251,20 +265,20 @@ async function __main__() {
         __module__ : {value: null}
     });
 
-    "81";
+    "112";
     async function move_shape(shape, s) {
         var ρσ_ls, i;
-        "82";
+        "113";
         var ρσ_Iter1 = range(len(shape));
         ρσ_Iter1 = ((typeof ρσ_Iter1[Symbol.iterator] === "function") ? (ρσ_Iter1 instanceof Map ? ρσ_Iter1.keys() : ρσ_Iter1) : Object.keys(ρσ_Iter1));
         for (var ρσ_Index1 of ρσ_Iter1) {
             i = ρσ_Index1;
-            "83";
+            "114";
             shape[(typeof i === "number" && i["<"](0)) ? shape.length["+"](i) : i][0] = shape[(typeof i === "number" && i["<"](0)) ? shape.length["+"](i) : i][0]["+"](s[0]);
-            "84";
+            "115";
             shape[(typeof i === "number" && i["<"](0)) ? shape.length["+"](i) : i][1] = shape[(typeof i === "number" && i["<"](0)) ? shape.length["+"](i) : i][1]["+"](s[1]);
         }
-        "85";
+        "116";
         return shape;
     };
     if (!move_shape.__argnames__) Object.defineProperties(move_shape, {
@@ -272,28 +286,28 @@ async function __main__() {
         __module__ : {value: null}
     });
 
-    "87";
+    "118";
     async function merge_shape(shape1, shape2) {
         var ρσ_ls, output, sh;
-        "88";
+        "119";
         output = ρσ_list_decorate([]);
-        "89";
+        "120";
         var ρσ_Iter2 = shape1;
         ρσ_Iter2 = ((typeof ρσ_Iter2[Symbol.iterator] === "function") ? (ρσ_Iter2 instanceof Map ? ρσ_Iter2.keys() : ρσ_Iter2) : Object.keys(ρσ_Iter2));
         for (var ρσ_Index2 of ρσ_Iter2) {
             sh = ρσ_Index2;
-            "90";
+            "121";
             output.append(sh);
         }
-        "91";
+        "122";
         var ρσ_Iter3 = shape2;
         ρσ_Iter3 = ((typeof ρσ_Iter3[Symbol.iterator] === "function") ? (ρσ_Iter3 instanceof Map ? ρσ_Iter3.keys() : ρσ_Iter3) : Object.keys(ρσ_Iter3));
         for (var ρσ_Index3 of ρσ_Iter3) {
             sh = ρσ_Index3;
-            "92";
+            "123";
             output.append(sh);
         }
-        "93";
+        "124";
         return output;
     };
     if (!merge_shape.__argnames__) Object.defineProperties(merge_shape, {
@@ -301,26 +315,26 @@ async function __main__() {
         __module__ : {value: null}
     });
 
-    "95";
+    "126";
     function Surface() {;
     }
     Surface.prototype.__init__ = async function __init__(mass, radius, left_len, up_len) {
         var self = this;
-        "97";
+        "128";
         self.mass = mass;
-        "98";
+        "129";
         self.pos = vec(0, 0, 0);
-        "99";
+        "130";
         self.vel = vec(0, 0, 0);
-        "100";
+        "131";
         self.acc = vec(0, 0, 0);
-        "101";
+        "132";
         self.radius = radius;
-        "102";
+        "133";
         self.center = vec(0, radius, 0);
-        "103";
+        "134";
         self.left_len = left_len;
-        "104";
+        "135";
         self.up_len = up_len;
     };
     if (!Surface.prototype.__init__.__argnames__) Object.defineProperties(Surface.prototype.__init__, {
@@ -332,25 +346,25 @@ async function __main__() {
     Surface.prototype.make_obj = async function make_obj() {
         var self = this;
         var ρσ_ls, left_line, surf_arc, up_line, fill_line, surf_shape;
-        "107";
+        "138";
         left_line = ρσ_list_decorate([ ρσ_list_decorate([ 1["-u"]()["*"](self.left_len), 0 ]), ρσ_list_decorate([ 0, 0 ]) ]);
-        "108";
+        "139";
         surf_arc = (await arc_shape(self.radius, 1["-u"]()["*"](pi)["/"](2), 0));
-        "110";
+        "141";
         surf_arc = (await move_shape(surf_arc, ρσ_list_decorate([ 0, self.radius ])));
-        "112";
+        "143";
         up_line = ρσ_list_decorate([ ρσ_list_decorate([ self.radius, self.radius ]), ρσ_list_decorate([ self.radius, self.radius["+"](self.up_len) ]) ]);
-        "114";
+        "145";
         fill_line = ρσ_list_decorate([ ρσ_list_decorate([ self.radius["+"](1), self.radius["+"](self.up_len) ]), ρσ_list_decorate([ self.radius["+"](1), 1["-u"]()["*"](1) ]), ρσ_list_decorate([ 1["-u"]()["*"](self.left_len), 1["-u"]()["*"](1) ]), ρσ_list_decorate([ 1["-u"]()["*"](self.left_len), 0 ]) ]);
-        "115";
+        "146";
         surf_shape = (await merge_shape(left_line, surf_arc));
-        "116";
+        "147";
         surf_shape = (await merge_shape(surf_shape, up_line));
-        "117";
+        "148";
         surf_shape = (await merge_shape(surf_shape, fill_line));
-        "121";
+        "152";
         self.surf_shape = surf_shape;
-        "122";
+        "153";
         self.obj = ρσ_interpolate_kwargs.call(this, extrusion, [ρσ_desugar_kwargs({shape: surf_shape, path: ρσ_list_decorate([ vec(0, 0, 1), vec(0, 0, 1["-u"]()["*"](1)) ]), pos: vec(1.5, 7, 0)})]);
     };
     if (!Surface.prototype.make_obj.__module__) Object.defineProperties(Surface.prototype.make_obj, {
@@ -358,7 +372,7 @@ async function __main__() {
     });
     Surface.prototype.reset_acc = async function reset_acc() {
         var self = this;
-        "126";
+        "157";
         self.acc = vec(0, 0, 0);
     };
     if (!Surface.prototype.reset_acc.__module__) Object.defineProperties(Surface.prototype.reset_acc, {
@@ -366,9 +380,9 @@ async function __main__() {
     });
     Surface.prototype.apply_normal_force_from_ball = async function apply_normal_force_from_ball(normal_force) {
         var self = this;
-        "129";
+        "161";
         self.acc = self.acc["+"](dot(vec(1, 0, 0), normal_force)["/"](self.mass)["*"](vec(1, 0, 0)));
-        "130";
+        "162";
         return mag(self.acc);
     };
     if (!Surface.prototype.apply_normal_force_from_ball.__argnames__) Object.defineProperties(Surface.prototype.apply_normal_force_from_ball, {
@@ -377,7 +391,7 @@ async function __main__() {
     });
     Surface.prototype.update_vel = async function update_vel() {
         var self = this;
-        "133";
+        "165";
         self.vel = self.vel["+"](self.acc["*"](dt));
     };
     if (!Surface.prototype.update_vel.__module__) Object.defineProperties(Surface.prototype.update_vel, {
@@ -385,9 +399,9 @@ async function __main__() {
     });
     Surface.prototype.update_pos = async function update_pos() {
         var self = this;
-        "136";
+        "168";
         self.pos = self.pos["+"](self.vel["*"](dt));
-        "137";
+        "169";
         self.center = self.pos["+"](vec(0, self.radius, 0));
     };
     if (!Surface.prototype.update_pos.__module__) Object.defineProperties(Surface.prototype.update_pos, {
@@ -395,7 +409,7 @@ async function __main__() {
     });
     Surface.prototype.update_obj = async function update_obj() {
         var self = this;
-        "140";
+        "172";
         self.obj.pos = self.pos["+"](vec(1.5, 7, 0));
     };
     if (!Surface.prototype.update_obj.__module__) Object.defineProperties(Surface.prototype.update_obj, {
@@ -416,9 +430,9 @@ async function __main__() {
 
 
 
-    "143";
+    "175";
     async function doNothing() {
-        "144";
+        "176";
         return;
     };
     if (!doNothing.__module__) Object.defineProperties(doNothing, {
@@ -426,51 +440,51 @@ async function __main__() {
     });
 
     (await sleep(.1));
-    "146";
+    "178";
     surface_r_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, prompt: "surface_r : ", text: "10", type: "numeric"})]);
-    "147";
+    "179";
     scene.append_to_caption("\t");
     (await sleep(.1));
-    "148";
+    "180";
     surface_m_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, prompt: "surface_m : ", text: "20", type: "numeric"})]);
-    "149";
+    "181";
     scene.append_to_caption("\n");
     (await sleep(.1));
-    "151";
+    "183";
     left_len_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, prompt: "left_len : ", text: "8", type: "numeric"})]);
-    "152";
+    "184";
     scene.append_to_caption("\t");
     (await sleep(.1));
-    "153";
+    "185";
     up_len_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, prompt: "up_len : ", text: "5", type: "numeric"})]);
-    "154";
+    "186";
     scene.append_to_caption("\n");
     (await sleep(.1));
-    "156";
+    "188";
     ball_r_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, prompt: "ball_r : ", text: "1", type: "numeric"})]);
-    "157";
+    "189";
     scene.append_to_caption("\t");
     (await sleep(.1));
-    "158";
+    "190";
     ball_m_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, prompt: "ball_m : ", text: "10", type: "numeric"})]);
-    "159";
+    "191";
     scene.append_to_caption("\t");
     (await sleep(.1));
-    "160";
+    "192";
     ball_v0_input = ρσ_interpolate_kwargs.call(this, winput, [ρσ_desugar_kwargs({bind: doNothing, prompt: "ball_v0 : ", text: "10", type: "numeric"})]);
-    "161";
+    "193";
     scene.append_to_caption("\n");
-    "163";
+    "195";
     conditions_set = false;
-    "165";
+    "197";
     async function none_to_default(x) {
-        "166";
+        "198";
         if (x.number === null) {
-            "167";
+            "199";
             return float(x.text);
-            "168";
+            "200";
         } else {
-            "169";
+            "201";
             return x.number;
         }
     };
@@ -479,31 +493,31 @@ async function __main__() {
         __module__ : {value: null}
     });
 
-    "171";
+    "203";
     async function setConditions(evt) {
-        "172";
-        "173";
-        "174";
-        "175";
-        "176";
-        "177";
-        "178";
-        "179";
+        "204";
+        "205";
+        "206";
+        "207";
+        "208";
+        "209";
+        "210";
+        "211";
         surface_r = (await none_to_default(surface_r_input));
-        "180";
+        "212";
         surface_m = (await none_to_default(surface_m_input));
-        "181";
+        "213";
         ball_r = (await none_to_default(ball_r_input));
-        "182";
+        "214";
         ball_m = (await none_to_default(ball_m_input));
-        "183";
+        "215";
         ball_v0 = (await none_to_default(ball_v0_input));
-        "184";
+        "216";
         left_len = (await none_to_default(left_len_input));
-        "185";
+        "217";
         up_len = (await none_to_default(up_len_input));
-        "186";
-        "187";
+        "218";
+        "219";
         conditions_set = true;
     };
     if (!setConditions.__argnames__) Object.defineProperties(setConditions, {
@@ -511,85 +525,103 @@ async function __main__() {
         __module__ : {value: null}
     });
 
-    "189";
+    "221";
     confirm_btn = ρσ_interpolate_kwargs.call(this, button, [ρσ_desugar_kwargs({bind: setConditions, text: "confirm"})]);
-    "191";
+    "223";
     while (true) {
-        "192";
+        "224";
         (await rate(10));
-        "193";
+        "225";
         if (conditions_set) {
-            "194";
+            "226";
             scene.caption = "";
-            "195";
+            "227";
             break;
         }
     }
-    "197";
+    "229";
     _GS_1 = new Surface;
     (await _GS_1.__init__(surface_m, surface_r, left_len, up_len));
     surface_01 = _GS_1;
-    "198";
+    "230";
     _GS_1 = new Ball;
     (await _GS_1.__init__(vec(1["-u"]()["*"](left_len)["+"](ball_r), ball_r, 0), vec(ball_v0, 0, 0), ball_m, ball_r));
     ball_01 = _GS_1;
-    "199";
+    "231";
     (await surface_01.make_obj());
-    "200";
+    "232";
     (await ball_01.make_obj());
-    "202";
+    "234";
     time = 0;
-    "203";
+    "235";
     scene.title = "<b>t = "["+"]("{:.3f}".format(time))["+"](" sec<\/b>");
-    "204";
+    "236";
     count = 1;
-    "205";
+    "237";
     time_scale = 1["/"](dt);
-    "207";
-    value_graph = ρσ_interpolate_kwargs.call(this, graph, [ρσ_desugar_kwargs({title: "", xtitle: "time", ytitle: "value"})]);
-    "208";
+    "239";
+    acc_graph = ρσ_interpolate_kwargs.call(this, graph, [ρσ_desugar_kwargs({title: "acceleration of surface in x axis", xtitle: "time", ytitle: "value"})]);
+    "240";
     acc_func = ρσ_interpolate_kwargs.call(this, gcurve, [ρσ_desugar_kwargs({color: color.blue, width: 4, label: "acceleration"})]);
-    "210";
+    "242";
+    x_momentum_graph = ρσ_interpolate_kwargs.call(this, graph, [ρσ_desugar_kwargs({title: "momentum in x axis", xtitle: "time", ytitle: "value"})]);
+    "243";
+    x_momentum_ball_func = ρσ_interpolate_kwargs.call(this, gcurve, [ρσ_desugar_kwargs({color: color.red, width: 4, label: "x_momentum_ball"})]);
+    "244";
+    x_momentum_surface_func = ρσ_interpolate_kwargs.call(this, gcurve, [ρσ_desugar_kwargs({color: color.blue, width: 4, label: "x_momentum_surface"})]);
+    "245";
+    x_momentum_total_func = ρσ_interpolate_kwargs.call(this, gcurve, [ρσ_desugar_kwargs({color: color.green, width: 4, label: "x_momentum_total"})]);
+    "247";
     ρσ_interpolate_kwargs.call(this, print_options, [ρσ_desugar_kwargs({width: 380, height: 205, digits: 10})]);
-    "211";
+    "248";
     print("dt:", dt);
-    "212";
+    "249";
     print("surface_r:", surface_r, "\tsurface_m:", surface_m);
-    "213";
+    "250";
     print("ball_r:", ball_r, "\tball_m:", ball_m);
-    "214";
+    "251";
     print("left_len:", left_len, "\tup_len:", up_len);
-    "216";
+    "253";
     while (true) {
-        "217";
+        "254";
         (await rate(200));
-        "219";
+        "256";
         time = count["*"](dt);
-        "220";
+        "257";
         scene.title = "<b>t = "["+"]("{:.3f}".format(time))["+"](" sec</b>");
-        "222";
+        "259";
         (await ball_01.reset_acc());
-        "223";
+        "260";
         (await ball_01.apply_gravity());
-        "224";
+        "261";
         (await surface_01.reset_acc());
-        "225";
+        "262";
         acc_value = (await ball_01.apply_normal_force_from_surface(surface_01));
-        "226";
+        "263";
         acc_func.plot(time, acc_value);
-        "228";
+        "265";
         (await ball_01.update_vel());
-        "229";
+        "266";
         (await surface_01.update_vel());
-        "230";
+        "268";
+        ball_01_x_momentum = ball_01.mass["*"](ball_01.vel.x);
+        "269";
+        surface_01_x_momentum = surface_01.mass["*"](surface_01.vel.x);
+        "270";
+        x_momentum_ball_func.plot(time, ball_01_x_momentum);
+        "271";
+        x_momentum_surface_func.plot(time, surface_01_x_momentum);
+        "272";
+        x_momentum_total_func.plot(time, ball_01_x_momentum["+"](surface_01_x_momentum));
+        "274";
         (await ball_01.update_pos());
-        "231";
+        "275";
         (await surface_01.update_pos());
-        "232";
+        "276";
         (await ball_01.update_obj());
-        "233";
+        "277";
         (await surface_01.update_obj());
-        "235";
+        "279";
         count=count["+"](1);
     }
 };
