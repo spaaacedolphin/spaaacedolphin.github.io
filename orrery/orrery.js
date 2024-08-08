@@ -91,7 +91,7 @@ function rescale(){
     case 1:
       canvas.scrollIntoView({behavior: 'auto', block: 'center', inline: 'center'});
       ctx.scale(0.5,0.5);
-      orbit_width=2;
+      orbit_width=3;
       rescale_btn.innerHTML="Change to 4 Plantes View";
       break;
     case 2:
@@ -107,8 +107,8 @@ function rescale(){
 const sun_radius = 32;
 function drawSun(){
   cur_date = new Date();
-  cur_date = cur_date.getFullYear()+"-"+months[cur_date.getMonth()]+"-"+cur_date.getDate();
-  //console.log(cur_date);
+  cur_date = cur_date.getFullYear()+"-"+months[cur_date.getMonth()]+"-"+cur_date.getDate().toString().padStart(2,"0");
+  console.log(cur_date);
   ctx.beginPath();
   ctx.arc(0, 0, sun_radius, 0, 2 * Math.PI);
   ctx.fillStyle = "Crimson";
