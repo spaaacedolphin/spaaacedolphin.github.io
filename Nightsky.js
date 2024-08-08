@@ -2,6 +2,13 @@ const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
 ctx.translate(canvas.width/2, canvas.height/2);
 ctx.scale(1,-1);
+
+function eq_of_time(current_year,days_since_Jan1){
+  var D = 6.24004077+0.01720197*(365.25*(current_year-2000)+days_since_Jan1);
+  var delta_minutes = -7.659*Math.sin(D) + 9.863*Math.sin(2*D+3.5932);
+  return delta_minutes;
+}
+
 const sun_radius = 30;
 function drawSun(){
   ctx.beginPath();
@@ -42,7 +49,7 @@ function drawEarth(){
   var sep_equinox_fracDay = (new Date(curYear+"-09-23T00:00:00.000").getTime() - newYear.getTime())/oneYear;
   var dec_solstice_fracDay = (new Date(curYear+"-12-21T00:00:00.000").getTime() - newYear.getTime())/oneYear;
 
-  console.log(mar_equinox_fracDay);
+  //console.log(mar_equinox_fracDay);
 
   earth_x = earth_r*Math.cos(2*Math.PI*fracYear+Math.PI/2);
   earth_y = earth_r*Math.sin(2*Math.PI*fracYear+Math.PI/2);
@@ -79,9 +86,12 @@ function drawEarth(){
   ctx.strokeStyle = "gray";
   ctx.stroke();
 
+  var days_since_Jan1 = (curTime.getTime() - newYear.getTime())*(1/1000)*(1/60)*(1/60)*(1/24);
+  var ap_sol_time_fracDay = ((curTime.getTime() - startDay.getTime()) + (eq_of_time(curYear,days_since_Jan1)*60*1000))/(1000*60*60*24);
+  console.log(eq_of_time(curYear,days_since_Jan1));
   ctx.beginPath();
   ctx.moveTo(earth_x, earth_y);
-  ctx.lineTo(earth_x+(earth_radius+10)*Math.cos(2*Math.PI*fracDay+earth_angle),earth_y+(earth_radius+10)*Math.sin(2*Math.PI*fracDay+earth_angle));
+  ctx.lineTo(earth_x+(earth_radius+10)*Math.cos(2*Math.PI*ap_sol_time_fracDay+earth_angle),earth_y+(earth_radius+10)*Math.sin(2*Math.PI*ap_sol_time_fracDay+earth_angle));
   ctx.lineWidth = 2.5;
   ctx.strokeStyle = "red";
   ctx.stroke();
