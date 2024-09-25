@@ -28,7 +28,7 @@ function drawEarth(){
   var oneYear = endYear.getTime() - newYear.getTime();
   //curTime = newYear;
   var fracYear = (curTime.getTime() - newYear.getTime()) / oneYear ;
-  document.querySelector("#fracYear").innerText = (fracYear*100).toFixed(10)+"%";
+  document.querySelector("#fracYear").innerText = (fracYear*100).toFixed(6)+"%";
   //console.log(newYear);
   //console.log(endYear);
   //console.log(fracYear);
@@ -40,7 +40,7 @@ function drawEarth(){
   startDay.setSeconds(0);
   startDay.setMilliseconds(0);
   var fracDay = (curTime.getTime() - startDay.getTime())/(1000*60*60*24);
-  document.querySelector("#fracDay").innerText = (fracDay*100).toFixed(10)+"%";
+  document.querySelector("#fracDay").innerText = (fracDay*100).toFixed(6)+"%";
   //console.log(curTime);
   //console.log(startDay);
   //console.log(fracDay);
@@ -115,7 +115,7 @@ const moon_r = 70;
 const moon_radius = 10;
 function drawMoon(){
   var moonPhase = SunCalc.getMoonIllumination(curTime).phase;
-  document.querySelector("#phase").innerText = (moonPhase*100).toFixed(10)+"%";
+  document.querySelector("#phase").innerText = (moonPhase*100).toFixed(6)+"%";
   var moon_x = earth_x + moon_r*Math.cos(2*Math.PI*moonPhase+Math.PI+earth_angle);
   var moon_y = earth_y + moon_r*Math.sin(2*Math.PI*moonPhase+Math.PI+earth_angle);
 
