@@ -1,0 +1,37 @@
+name: Python Scheduled Script
+
+on:
+  schedule:
+  - cron: "0 0 * * *"
+  
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking out repo
+        uses: actions/checkout@v3
+      - name: Setting up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Installing package list
+        run: apt list --installed
+        
+       # Need to fetch reqs if needed
+      - name: Installing all necessary packages
+        uses: py-actions/py-dependency-install@v2
+        with:
+          path: "requirements.txt"
+
+      - name: Running the Python script
+        run: python update_apod.py
+        
+      - uses: actions/upload-artifact@v4
+  	  with:
+            name: apod_image
+            path: |
+              apod.png
+              apod_title.txt
+            retention-days: 2
+            compression-level: 0
+            overwrite: true
