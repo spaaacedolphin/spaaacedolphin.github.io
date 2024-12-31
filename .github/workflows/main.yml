@@ -28,7 +28,7 @@ jobs:
       
       - name: update APOD
         uses: actions/upload-artifact@v4
-  	with:
+        with:
           name: update-APOD
           path: |
             apod.png
