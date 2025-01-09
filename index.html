@@ -10,268 +10,311 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Ubuntu&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="scrollbar.css">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
 
     <style media="screen">
+        body{
+            text-align: center;
+            font-family: "DM Serif Text", serif;
+            font-weight: 400;
+            font-style: normal;
+            background: #0c0e16;
+        }
+        
+        /* Thanks to Fabian & Pavel Coding2GO! Check out https://www.coding2go.com/ */
+        
+        :root{
+            --primary-color: #11121a;
+            --hover-color: #272832;
+            --accent-color: #0071FF;
+            --text-color: #c9c9c9;
+        }
+        
+        nav{
+            background-color: var(--primary-color);
+            border-bottom: 1px solid var(--hover-color);
+        }
+        nav ul{
+            list-style: none;
+            display: flex;
+        }
+        nav .home-li{
+            margin-right: auto;
+        }
+        nav li{
+            display: flex;
+        }
+        nav a{
+            display: flex;
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 1em 2em;
+            transition: background-color 150ms ease;
+        }
+        nav a:hover{
+            background-color: var(--hover-color);
+        }
+        nav a.active-link{
+            border-bottom: 2px solid var(--text-color);
+        }
+        nav a.accent-link{
+            background-color: var(--accent-color);
+        }
+        
+        .dark{
+            background: #1c1f2b;
+            color: white;
+        }
+        
+        .eighty{
+            width: min(80%,1000px);
+        }
+      
+        .centered{
+            display: block;
+            margin: 50px auto;
+        }
+        
+        .one-half-em_padding{
+            padding: 1.5em;
+        }
+        
+        iframe{
+            display: block;
+            margin: auto;
+        }
 
-      body{
-        text-align: center;
-        font-family: "DM Serif Text", serif;
-        font-weight: 400;
-        font-style: normal;
-      }
-      iframe{
-        display:block;
-        margin: auto;
-      }
+        #twitter-widget-0{
+            display: block;
+            margin: auto;
+        }
 
-      #twitter-widget-0{
-        display:block;
-        margin: auto;
-      }
+        .flickr-embed{
+            display: block;
+            margin: auto;
+        }
 
-      .flickr-embed{
-        display:block;
-        margin: auto;
-      }
-
-      .centered_img{
-        display:block;
-        margin: auto;
-      }
-
-      .centered_div{
-        display:block;
-      }
+        .centered_img{
+            display: block;
+            margin: auto;
+        }
+        
+        .round_path{
+            position: relative;
+            border-radius: 10px;
+        }
+        
+        .card{
+            margin: 0 auto;
+            padding: 2em;
+            width: clamp(535px,80%,1000px);
+            text-align: center;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        @property --angle{
+            syntax: "<angle>";
+            initial-value: 0deg;
+            inherits: false;
+        }
+        
+        .card::after, .card::before{
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background-image: conic-gradient(from var(--angle),#ff4545,#00ff99,#006aff,#ff0095,#ff4545);
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+            z-index: -1;
+            padding: 3px;
+            border-radius: 10px;
+            animation: 5s rotate linear infinite;
+        }
+        .card::before{
+            filter: blur(1.5rem);
+            opacity: 0.5;
+        }
+        
+        .round_path::after, .round_path::before{
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background-image: conic-gradient(from var(--angle),transparent 5%, snow 95%);
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+            z-index: -1;
+            padding: 3px;
+            border-radius: 10px;
+            animation: 20s rotate linear infinite;
+        }
+        .round_path::before{
+            filter: blur(1.5rem);
+            opacity: 0.5;
+        }
+        
+        @keyframes rotate{
+            from{
+                --angle: 0deg;
+            }
+            to{
+                --angle: 360deg;
+            }
+        }
+      
+        .time_grid{
+            display: grid;
+            grid-template-columns: auto auto auto;
+            gap: 10px;
+        }
+        #curTime_div{
+            grid-column: 1 / span 3;
+        }
+      
+        .value_display{
+            font-size: 2em;
+        } 
+        .value_name{
+            margin: auto;
+            font-size: 0.9em; 
+            color: #d9d9d9;
+        }
+        
+        .in-the-sky_grid{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+        }
+        
+        .link_button{
+            text-decoration: none;
+            color:white;
+            font-size: 1.2em;
+            display: inline-block;
+            padding:0.5em;
+            border-radius:5px;
+            background-color: #04AA6D;
+        }
+        .link_button:hover{
+            background-color: green;
+        }
+        
+        #github_svg:hover{
+            fill: white;
+        }
+      
     </style>
 
   </head>
   <body>
 
-    <nav class="bg-gray-800">
-      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div class="relative flex h-16 items-center justify-between">
-          <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            <!-- Mobile menu button-->
-            <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
-              <span class="absolute -inset-0.5"></span>
-              <span class="sr-only">Open main menu</span>
-              <!--
-                Icon when menu is closed.
-
-                Menu open: "hidden", Menu closed: "block"
-              -->
-
-              <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-              </svg>
-              <!--
-                Icon when menu is open.
-
-                Menu open: "block", Menu closed: "hidden"
-              -->
-              <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-          <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div class="flex flex-shrink-0 items-center">
-              <!--
-              <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
-              -->
-              <object data="SpaceDolphin_logo_dark.svg" class="h-10 w-10"></object>
-            </div>
-            <div class="hidden sm:ml-6 sm:block">
-              <div class="flex space-x-4">
-                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                <a href="/" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Home</a>
-                <a href="./orrery" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Orrery</a>
-                <a href="./ncrs" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">NCRS</a>
-		<a href="./proofs" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Proofs</a>
-
-                <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Physics Simulation
-                  <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                  </svg>
-                </button>
-                <!-- Dropdown menu -->
-                <div id="dropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
-                      <li>
-                        <a href="./rope-as-springs-simulation" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">Rope as Springs</a>
-                      </li>
-                      <li>
-                        <a href="./ball-on-moving-curved-surface" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">Ball on moving curved Surface</a>
-                      </li>
-                    </ul>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="absolute inset-y-0 right-0 flex items-center">
-              <button type="button" data-dropdown-toggle="language-dropdown-menu" class="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-white hover:text-gray-900 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
-                <svg class="w-5 h-5 rounded-full me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 3900 3900"><path fill="#b22234" d="M0 0h7410v3900H0z"/><path d="M0 450h7410m0 600H0m0 600h7410m0 600H0m0 600h7410m0 600H0" stroke="#fff" stroke-width="300"/><path fill="#3c3b6e" d="M0 0h2964v2100H0z"/><g fill="#fff"><g id="d"><g id="c"><g id="e"><g id="b"><path id="a" d="M247 90l70.534 217.082-184.66-134.164h228.253L176.466 307.082z"/><use xlink:href="#a" y="420"/><use xlink:href="#a" y="840"/><use xlink:href="#a" y="1260"/></g><use xlink:href="#a" y="1680"/></g><use xlink:href="#b" x="247" y="210"/></g><use xlink:href="#c" x="494"/></g><use xlink:href="#d" x="988"/><use xlink:href="#c" x="1976"/><use xlink:href="#e" x="2470"/></g></svg>
-                English (US)
-              </button>
-              <!-- Dropdown -->
-              <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700" id="language-dropdown-menu">
-                <ul class="py-2 font-medium" role="none">
-                  <li>
-                    <a href="#" class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
-                      <div class="inline-flex items-center">
-                        <svg aria-hidden="true" class="h-3.5 w-3.5 rounded-full me-2" xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-us" viewBox="0 0 512 512"><g fill-rule="evenodd"><g stroke-width="1pt"><path fill="#bd3d44" d="M0 0h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0z" transform="scale(3.9385)"/><path fill="#fff" d="M0 10h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0z" transform="scale(3.9385)"/></g><path fill="#192f5d" d="M0 0h98.8v70H0z" transform="scale(3.9385)"/><path fill="#fff" d="M8.2 3l1 2.8H12L9.7 7.5l.9 2.7-2.4-1.7L6 10.2l.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7L74 8.5l-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 7.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 24.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 21.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 38.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 35.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 52.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 49.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 66.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 63.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9z" transform="scale(3.9385)"/></g></svg>
-                        English (US)
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
-                      <div class="inline-flex items-center">
-                        <svg class="h-3.5 w-3.5 rounded-full me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-de" viewBox="0 0 512 512"><path fill="#ffce00" d="M0 341.3h512V512H0z"/><path d="M0 0h512v170.7H0z"/><path fill="#d00" d="M0 170.7h512v170.6H0z"/></svg>
-                        Deutsch
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
-                      <div class="inline-flex items-center">
-                        <svg class="h-3.5 w-3.5 rounded-full me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-it" viewBox="0 0 512 512"><g fill-rule="evenodd" stroke-width="1pt"><path fill="#fff" d="M0 0h512v512H0z"/><path fill="#009246" d="M0 0h170.7v512H0z"/><path fill="#ce2b37" d="M341.3 0H512v512H341.3z"/></g></svg>
-                        Italiano
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
-                      <div class="inline-flex items-center">
-                        <svg class="h-3.5 w-3.5 rounded-full me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="flag-icon-css-cn" viewBox="0 0 512 512"><defs><path id="a" fill="#ffde00" d="M1-.3L-.7.8 0-1 .6.8-1-.3z"/></defs><path fill="#de2910" d="M0 0h512v512H0z"/><use width="30" height="20" transform="matrix(76.8 0 0 76.8 128 128)" xlink:href="#a"/><use width="30" height="20" transform="rotate(-121 142.6 -47) scale(25.5827)" xlink:href="#a"/><use width="30" height="20" transform="rotate(-98.1 198 -82) scale(25.6)" xlink:href="#a"/><use width="30" height="20" transform="rotate(-74 272.4 -114) scale(25.6137)" xlink:href="#a"/><use width="30" height="20" transform="matrix(16 -19.968 19.968 16 256 230.4)" xlink:href="#a"/></svg>
-                        中文 (繁體)
-                      </div>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      <!-- Mobile menu, show/hide based on menu state. -->
-      <div class="sm:hidden" id="mobile-menu">
-        <div class="space-y-1 px-2 pb-3 pt-2">
-          <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-          <a href="/" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Home</a>
-          <a href="./orrery" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Orrery</a>
-          <a href="./ncrs" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">NCRS</a>
-	  <a href="./proofs" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Proofs</a>
-          <a href="./rope-as-springs-simulation" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Rope as Springs</a>
-          <a href="./ball-on-moving-curved-surface" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Ball on moving curved Surface</a>
-        </div>
-      </div>
+    <nav>
+        <ul>
+            <li class="home-li"><a href="https://spacedolphin.net"><object data="SpaceDolphin_logo_dark.svg" style="width:1.8em; height:1.8em; border:1px solid gray; border-radius: 0.9em"></object></a></li>
+            <li><a href="./orrery">Orrery</a></li>
+            <li><a href="./ncrs">NCRS</a></li>
+            <li><a href="./proofs">Proofs</a></li>
+            <li><a href="./physics-simulation">Physics Simulation</a></li>
+        </ul>
     </nav>
-    <div width="100%" height="600" class="mx-auto overflow-x-auto">
-      <canvas id="canvas" width="600" height="600" class="mx-auto"></canvas>
+    
+    <div width="100%" height="600" class="centered">
+      <canvas id="canvas" width="600" height="600" class="centered"></canvas>
     </div>
 
-    <div class="w-11/12 mx-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <div class="p-4 md:p-8" id="stats">
-                <dl class="grid max-w-screen-xl grid-cols-1 gap-8 p-4 mx-auto text-gray-900 md:grid-cols-3 dark:text-white sm:p-8">
-
-                    <div class="col-span-1 md:col-span-3 flex flex-col items-center justify-center">
-                        <dt class="mb-2 text-2xl lg:text-3xl font-extrabold" id="curTime">curTime</dt>
-                        <dd class="text-gray-500 dark:text-gray-400">Current Time</dd>
-                    </div>
-
-                    <div class="flex flex-col items-center justify-center">
-                        <dt class="mb-2 text-2xl lg:text-3xl font-extrabold" id="fracYear">fracYear</dt>
-                        <dd class="text-gray-500 dark:text-gray-400">Year Progress</dd>
-                    </div>
-                    <div class="flex flex-col items-center justify-center">
-                        <dt class="mb-2 text-2xl lg:text-3xl font-extrabold" id="phase">phase</dt>
-                        <dd class="text-gray-500 dark:text-gray-400">Lunation Progress</dd>
-                    </div>
-                    <div class="flex flex-col items-center justify-center">
-                        <dt class="mb-2 text-2xl lg:text-3xl font-extrabold" id="fracDay">fracDay</dt>
-                        <dd class="text-gray-500 dark:text-gray-400">Day Progress</dd>
-                    </div>
-                </dl>
+    <div class="dark card">
+        <dl class="time_grid">
+            <div id="curTime_div">
+                <dt id="curTime" class="value_display">curTime</dt>
+                <dd class="value_name">Current Time</dd>
             </div>
+
+            <div>
+                <dt id="fracYear" class="value_display">fracYear</dt>
+                <dd class="value_name">Year Progress</dd>
+            </div>
+            <div>
+                <dt id="phase" class="value_display">phase</dt>
+                <dd class="value_name">Lunation Progress</dd>
+            </div>
+            <div>
+                <dt id="fracDay" class="value_display">fracDay</dt>
+                <dd class="value_name">Day Progress</dd>
+            </div>
+        </dl>
     </div>
 
     <script src="suncalc.js"></script>
     <script src="Nightsky.js"></script>
 
-    <div class="w-11/12 mx-auto overflow-x-auto p-4">
-      <dl class="grid justify-items-center md:justify-items-start lg:justify-items-center items-center max-w-screen-xl grid-cols-1 mx-auto text-gray-900 md:grid-cols-10 lg:grid-cols-2 dark:text-white">
-        <div class="col-span-1 md:col-span-3 lg:col-span-1">
-          <iframe allowtransparency="yes" scrolling="no" class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="width:190px; height:756px; overflow: hidden;" src="https://in-the-sky.org/widgets/riseset.php?skin=0&locale=0"></iframe>
+    <div class="eighty centered in-the-sky_grid">
+        <div class="dark round_path">
+            <iframe allowtransparency="yes" scrolling="no" style="width:190px; height:756px; overflow: hidden; border: 0 solid transparent;" src="https://in-the-sky.org/widgets/riseset.php?skin=1&locale=0"></iframe>
         </div>
-        <div class="col-span-1 md:col-span-7 lg:col-span-1">
-          <iframe allowtransparency="yes" scrolling="no" class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="width:500px; height:600px; overflow: hidden;" src="https://in-the-sky.org/widgets/news_upcoming.php"></iframe>
+        <div class="dark round_path">
+            <iframe allowtransparency="yes" scrolling="no" style="width:500px; height:630px; margin: 10% auto; overflow: hidden; border: 0 solid transparent;" src="https://in-the-sky.org/widgets/news_upcoming.php?skin=1"></iframe>
         </div>
-      </dl>
     </div>
 
-    <div class="w-11/12 mx-auto p-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <iframe src="https://earth.nullschool.net/#current/wind/surface/level/overlay=total_cloud_water/orthographic" class="centered_iframe" width="95%" height="700"></iframe>
+
+    <div class="eighty centered round_path" style="height:700px">
+      <iframe src="https://earth.nullschool.net/#current/wind/surface/level/overlay=total_cloud_water/orthographic" style="border: 0 solid transparent; border-radius:10px;" scrolling="no" width="100%" height="700px"></iframe>
     </div>
 
-    <div class="w-11/12 mx-auto p-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <p class="text-xl">HST's latest pictures</p>
+    <div class="dark eighty centered one-half-em_padding round_path">
+      <h3>HST's latest pictures</h3>
       <a data-flickr-embed="true" href="https://www.flickr.com/photos/nasahubble/albums/72157667717916603" title="Hubble&#x27;s Latest"><img src="https://live.staticflickr.com/65535/53272512755_c105cb490b_h.jpg" width="700" height="700" class="centered_img" alt="Hubble&#x27;s Latest"/></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
     </div>
 
-    <div class="w-11/12 mx-auto p-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <p class="text-xl">JWST's latest pictures</p>
+    <div class="dark eighty centered one-half-em_padding round_path">
+      <h3>JWST's latest pictures</h3>
       <a data-flickr-embed="true" href="https://www.flickr.com/photos/50785054@N03" title=""><img src="https://live.staticflickr.com/65535/53404881117_02c3bc59a1_h.jpg" width="700" height="700" class="centered_img" alt=""/></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
     </div>
 
-
-
-    <div class="mx-auto max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-      <a href="https://apod.nasa.gov/">
-        <img class="rounded-t-lg" src="apod.png" alt="" />
-      </a>
-      <div class="p-5">
-        <a href="https://apod.nasa.gov/">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">APOD</h5>
+    <div class="dark centered round_path" style="width:max(30%,360px); padding-bottom: 1em;">
+        <a href="./apod.png">
+            <img src="apod.png" alt="" width="100%" style="border-radius:10px 10px 0 0;"/>
         </a>
-        <embed src="apod_title.txt" width="350" height=""/>
-        <a href="https://apod.nasa.gov/" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Read more
-            <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-            </svg>
-        </a>
-      </div>
+        <h2>APOD</h2>
+        <embed src="apod_title.txt" width="350" style="background:snow; border-radius: 5px;" />
+        <br>
+        <a class="link_button" href="https://apod.nasa.gov/">Read more</a>
+        
     </div>
-    <div class="w-11/12 mx-auto overflow-x-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    
+    <div class="eighty centered">
         <script type="text/javascript" src="https://www.n2yo.com/js/widget-tracker.js"></script>
     </div>
+    
     <a href="https://services.swpc.noaa.gov/images/animations/enlil">
-      <img src="https://services.swpc.noaa.gov/images/animations/enlil/latest.jpg" class="w-11/12 max-w-screen-md mx-auto" alt="">
+      <img class="eighty centered" src="https://services.swpc.noaa.gov/images/animations/enlil/latest.jpg" alt="" />
     </a>
     <a href="https://services.swpc.noaa.gov/images/animations/geospace/density">
-      <img src="https://services.swpc.noaa.gov/images/animations/geospace/density/latest.png" class="w-11/12 max-w-screen-md mx-auto" alt="">
+      <img class="eighty centered" src="https://services.swpc.noaa.gov/images/animations/geospace/density/latest.png" alt="" />
     </a>
     <a href="https://services.swpc.noaa.gov/images/animations/geospace/pressure">
-      <img src="https://services.swpc.noaa.gov/images/animations/geospace/pressure/latest.png" class="w-11/12 max-w-screen-md mx-auto" alt="">
+      <img class="eighty centered" src="https://services.swpc.noaa.gov/images/animations/geospace/pressure/latest.png" alt="" />
     </a>
+    <a href="https://services.swpc.noaa.gov/images/animations/geospace/velocity">
+        <img class="eighty centered" src="https://services.swpc.noaa.gov/images/animations/geospace/velocity/latest.png" alt="" />
+    </a>
+    
     <a href="https://services.swpc.noaa.gov/images/animations/ovation/north">
-      <img src="https://services.swpc.noaa.gov/images/animations/ovation/north/latest.jpg" class="w-11/12 max-w-screen-md mx-auto" alt="">
+        <img class="eighty centered" src="https://services.swpc.noaa.gov/images/animations/ovation/north/latest.jpg" alt="" />
     </a>
     <a href="https://services.swpc.noaa.gov/images/animations/ovation/south">
-      <img src="https://services.swpc.noaa.gov/images/animations/ovation/south/latest.jpg" class="w-11/12 max-w-screen-md mx-auto" alt="">
+        <img class="eighty centered" src="https://services.swpc.noaa.gov/images/animations/ovation/south/latest.jpg" alt="" />
     </a>
+    
     <!-- <script type="text/javascript" src="http://moonphases.co.uk/js/widget.js" id="moonphase_widget" widget="" lat="" lng="" date="" tz=""></script> -->
-    <div class="p-4">
+    <div class="centered">
       <a href="https://twitter.com/Cur_Earth_Moon?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @Cur_Earth_Moon</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      
       <a href="https://github.com/dolphinlsm04/dolphinlsm04.github.io" class="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5" style="display: inline-block;">
-          <svg class="w-7 h-7" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+          <svg id="github_svg" style="width: 50px; height: 50px;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="gray" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 .333A9.911 9.911 0 0 0 6.866 19.65c.5.092.678-.215.678-.477 0-.237-.01-1.017-.014-1.845-2.757.6-3.338-1.169-3.338-1.169a2.627
                 2.627 0 0 0-1.1-1.451c-.9-.615.07-.6.07-.6a2.084 2.084 0 0 1 1.518 1.021 2.11 2.11 0 0 0 2.884.823c.044-.503.268-.973.63-1.325-2.2-.25-4.516-1.1-4.516-4.9A3.832
                 3.832 0 0 1 4.7 7.068a3.56 3.56 0 0 1 .095-2.623s.832-.266 2.726 1.016a9.409 9.409 0 0 1 4.962 0c1.89-1.282 2.717-1.016 2.717-1.016.366.83.402 1.768.1 2.623a3.827
@@ -280,6 +323,6 @@
           </svg>
       </a>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+
   </body>
 </html>
