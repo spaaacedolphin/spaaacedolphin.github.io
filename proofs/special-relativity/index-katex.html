@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <title>Special Relativity</title>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js" integrity="sha384-Rma6DA2IPUwhNxmrB/7S3Tno0YY7sFu9WSYMCuulLhIqYSGZ2gKCJWIqhBWqMQfh" crossorigin="anonymous"></script>
+	
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Ubuntu&display=swap" rel="stylesheet">
+
+     <style media="screen">
+
+      	body{
+            text-align: center;
+            font-family: "DM Serif Text", serif;
+            font-weight: 400;
+            font-style: normal;
+            background: #1c1f2b;
+            color: white;
+        }
+        
+        .katex { line-height: 2.5 !important; }
+      
+    </style>
+    
+  </head>
+  <body>
+  
+  	<h1>Special Relativity</h1>
+
+    <h2>Time Dilation</h2>
+	<p id="time-dilation"></p>
+	
+	<h2>β and γ</h2>
+	<p id="beta-and-gamma"></p>
+	
+	<h2>Length Contraction</h2>
+	<p id="length-contraction"></p>
+	
+	<h2>Lorentz Transformation</h2>
+	<p>
+		An obeserver and a traveller meets at some point in spacetime.<br>
+		And they agree to define each one's reference frame with that point in spacetime as origin.<br>
+		So the (0,0,0,0) point is the same point in spacetime for both of them.<br>
+		The traveller is travelling with relative speed of v in some direction as seen by the observer.<br>
+		The observer defines x axis as the direction the traveller is heading.<br>
+		From the traveller's point of view,<br>
+		the observer is travelling in the opposite direction with relative speed of v.<br>
+		Nevertheless, the traveller agrees to define x' axis in the same direction as the observer.<br>
+		They also agree on the directions of y and y' axis, z and z' axis.<br>
+		Lastly, they agree to call the observer's reference frame as S, and the traveller's reference frame as S'.
+	</p>
+	
+    <script>
+    	katex.render(`	
+    					c\\Delta t=2h \\newline 
+    					c\\Delta t\'=2\\sqrt{\\left( v\\cdot \\frac{\\Delta t'}{2}\\right)^{2} +h^{2}} \\newline
+    					=\\sqrt{( v\\Delta t\')^{2} +4h^{2}} \\newline
+    					=\\sqrt{( v\\Delta t\')^{2} +( 2h)^{2}} \\newline
+    					( c\\Delta t')^{2} =( v\\Delta t\')^{2} +( c\\Delta t)^{2} \\newline
+    					c^{2}( \\Delta t)^{2} =\\left( c^{2} -v^{2}\\right)( \\Delta t\')^{2} \\newline
+    					( \\Delta t)^{2} =\\left( 1-\\left(\\frac{v}{c}\\right)^{2}\\right)( \\Delta t\')^{2}  \\newline
+    					\\Delta t=\\sqrt{1-\\left(\\frac{v}{c}\\right)^{2}} \\Delta t\' \\newline
+    					\\gamma \\equiv \\frac{1}{\\sqrt{1-\\left(\\frac{v}{c}\\right)^{2}}} \\newline
+    					\\Delta t\'=\\gamma \\Delta t
+    				`, document.getElementById('time-dilation'), {throwOnError: false});
+    	
+    	katex.render(`	
+    					0 \\leq v < c \\newline 
+    					0 \\leq \\frac{v}{c} < 1 \\newline
+    					\\beta \\equiv \\frac{v}{c} \\newline
+    					0 \\leq \\beta < 1 \\newline
+    					0 \\leq \\beta ^{2} < 1 \\newline
+    					-1 < -\\beta ^{2} \\leq 0 \\newline
+    					0 < 1-\\beta ^{2} \\leq 1 \\newline
+    					0 < \\sqrt{1-\\beta ^{2}} \\leq 1 \\newline
+    					\\gamma = \\frac{1}{\\sqrt{1-\\beta ^{2}}} = \\left( 1-\\beta ^{2}\\right)^{-1/2} \\newline
+    					\\frac{1}{\\gamma } \\leq 1 \\newline
+    					\\gamma \\geq 1
+    				`, document.getElementById('beta-and-gamma'), {throwOnError: false});
+    	
+    	katex.render(`	
+    					\\Delta x\'= v\\Delta t \\newline 
+    					\\Delta x = v\\Delta t\' \\newline
+    					= \\gamma \ v\\Delta t \\newline
+    					= \\gamma \\Delta x\' \\newline
+    					\\Delta x\' = \\frac{\\Delta x}{\\gamma}
+    				`, document.getElementById('length-contraction'), {throwOnError: false});
+    
+    </script>
+	
+  </body>
+</html>
