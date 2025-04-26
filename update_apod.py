@@ -6,6 +6,7 @@ hdurl = apod_obj_parser.get_hdurl(response)
 
 apod_obj_parser.download_image(hdurl)
 apod_obj_parser.convert_image()
+apod_obj_parser.delete_jpg()
 
 file = open("apod_title.txt",'w')
 file.write(title)

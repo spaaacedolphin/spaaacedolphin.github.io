@@ -46,7 +46,13 @@ def download_image(url):
     with open(f'apod.jpg', 'wb') as file:
         file.write(raw_image)
 
-
 def convert_image():
     image = Image.open("apod.jpg")
     image.save(f"apod.png")
+
+
+def delete_jpg():
+	if os.path.exists("apod.jpg"):
+		os.remove("apod.jpg")
+	else:
+		print("jpg file does not exist")
