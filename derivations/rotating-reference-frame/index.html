@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="https://www.texmacs.org/2002/extensions" xmlns:m="http://www.w3.org/1998/Math/MathML">
+  <head>
+    <title>Rotating reference frame</title>
+    <meta charset="utf-8" content="TeXmacs 2.1.4" name="generator"></meta>
+    <style type="text/css">
+      body { text-align: justify } h5 { display: inline; padding-right: 1em }
+      h6 { display: inline; padding-right: 1em } table { border-collapse:
+      collapse } td { padding: 0.2em; vertical-align: baseline } dt { float:
+      left; min-width: 1.75em; text-align: right; padding-right: 0.75em;
+      font-weight: bold; } dd { margin-left: 2.75em; padding-bottom: 0.25em; }
+      dd p { padding-top: 0em; } .subsup { display: inline; vertical-align:
+      -0.2em } .subsup td { padding: 0px; text-align: left} .fraction {
+      display: inline; vertical-align: -0.8em } .fraction td { padding: 0px;
+      text-align: center } .wide { position: relative; margin-left: -0.4em }
+      .accent { position: relative; margin-left: -0.4em; top: -0.1em }
+      .title-block { width: 100%; text-align: center } .title-block p {
+      margin: 0px } .compact-block p { margin-top: 0px; margin-bottom: 0px }
+      .left-tab { text-align: left } .center-tab { text-align: center }
+      .balloon-anchor { border-bottom: 1px dotted #000000; outline: none;
+      cursor: help; position: relative; } .balloon-anchor [hidden] {
+      margin-left: -999em; position: absolute; display: none; }
+      .balloon-anchor: hover [hidden] { position: absolute; left: 1em; top:
+      2em; z-index: 99; margin-left: 0; width: 500px; display: inline-block; }
+      .balloon-body { } .ornament { border-width: 1px; border-style: solid;
+      border-color: black; display: inline-block; padding: 0.2em; } .right-tab
+      { float: right; position: relative; top: -1em; } .no-breaks {
+      white-space: nowrap; } .underline { text-decoration: underline; }
+      .overline { text-decoration: overline; } .strike-through {
+      text-decoration: line-through; } del { text-decoration: line-through
+      wavy red; } .fill-out { text-decoration: underline dotted; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" language="javascript"></script>
+  </head>
+  <body>
+    <center>
+      \begin{eqnarray*}
+  & \vec{r} (t) = x (t) \hat{x} + y (t) \hat{y} + z
+      (t) \hat{z} & \\
+  & = x' (t) \hat{i} + y' (t) \hat{j} + z' (t) \hat{k}
+      &
+\end{eqnarray*}
+    </center>
+    <center>
+      \begin{eqnarray*}
+  & \frac{d}{d t} \hat{i} = \vec{\Omega} \times
+      \hat{i} & \\
+  & \frac{d}{d t} \hat{j} = \vec{\Omega} \times \hat{j} &
+      \\
+  & \frac{d}{d t} \hat{k} = \vec{\Omega} \times \hat{k} &
+
+\end{eqnarray*}
+    </center>
+    <center>
+      \begin{eqnarray*}
+  & \frac{d \vec{r}}{d t} = \left( \frac{d x'}{d t}
+      \hat{i} + x'  \frac{d
+  \hat{i}}{d t} \right) + \left( \frac{d y'}{d t}
+      \hat{j} + y'  \frac{d
+  \hat{j}}{d t} \right) + \left( \frac{d z'}{d t}
+      \hat{k} + z'  \frac{d
+  \hat{k}}{d t} \right) & \\
+  & = \left( \frac{d
+      x'}{d t} \hat{i} + \frac{d y'}{d t} \hat{j} + \frac{d
+  z'}{d t} \hat{k}
+      \right) + x' (\vec{\Omega} \times \hat{i}) + y'
+  (\vec{\Omega} \times
+      \hat{j}) + z' (\vec{\Omega} \times \hat{k}) & \\
+  & = \left( \frac{d
+      x'}{d t} \hat{i} + \frac{d y'}{d t} \hat{j} + \frac{d
+  z'}{d t} \hat{k}
+      \right) + \vec{\Omega} \times (x'  \hat{i} + y'  \hat{j} +
+  z'
+      \hat{k}) &
+\end{eqnarray*}
+    </center>
+    <center>
+      \begin{eqnarray*}
+  & \vec{v}_i := \frac{d \vec{r}}{d t} & \\
+  &
+      \vec{v}_r := \frac{d x'}{d t} \hat{i} + \frac{d y'}{d t} \hat{j} +
+
+      \frac{d z'}{d t} \hat{k} &
+\end{eqnarray*}
+    </center>
+    <center>
+      \begin{eqnarray*}
+  & \vec{v}_i = \vec{v}_r + \vec{\Omega} \times
+      \vec{r} & \\
+  & \vec{v}_r = \vec{v}_i - \vec{\Omega} \times \vec{r} &
+
+\end{eqnarray*}
+    </center>
+    <center>
+      \begin{eqnarray*}
+  & \frac{d \vec{v}_i}{d t} = \frac{d \vec{v}_r}{d t}
+      + \frac{d}{d t}
+  (\vec{\Omega} \times \vec{r}) & \\
+  & = \frac{d}{d t}
+      \left( \frac{d x'}{d t} \hat{i} + \frac{d y'}{d t}
+  \hat{j} + \frac{d
+      z'}{d t} \hat{k} \right) + \left( \frac{d \vec{\Omega}}{d
+  t} \times
+      \vec{r} + \vec{\Omega} \times \frac{d \vec{r}}{d t} \right) & \\
+  & =
+      \left( \frac{d^2 x'}{d t^2} \hat{i} + \frac{d^2 y'}{d t^2} \hat{j} +
+
+      \frac{d^2 z'}{d t^2} \hat{k} \right) + \vec{\Omega} \times \left(
+      \frac{d
+  x'}{d t} \hat{i} + \frac{d y'}{d t} \hat{j} + \frac{d z'}{d t}
+      \hat{k}
+  \right) + \frac{d \vec{\Omega}}{d t} \times \vec{r} +
+      \vec{\Omega} \times
+  \vec{v}_i &
+\end{eqnarray*}
+    </center>
+    <center>
+      \begin{eqnarray*}
+  & \vec{a}_i := \frac{d \vec{v}_i}{d t} & \\
+  &
+      \vec{a}_r := \frac{d^2 x'}{d t^2} \hat{i} + \frac{d^2 y'}{d t^2}
+      \hat{j}
+  + \frac{d^2 z'}{d t^2} \hat{k} &
+\end{eqnarray*}
+    </center>
+    <center>
+      \(\displaystyle \vec{a}_i = \vec{a}_r + \vec{\Omega} \times \vec{v}_r +
+      \frac{d
+\vec{\Omega}}{d t} \times \vec{r} + \vec{\Omega} \times
+      (\vec{v}_r +
+\vec{\Omega} \times \vec{r})\)
+    </center>
+    <center>
+      \begin{eqnarray*}
+  & \vec{a}_i = \vec{a}_r + 2 \vec{\Omega} \times
+      \vec{v}_r + \vec{\Omega}
+  \times (\vec{\Omega} \times \vec{r}) +
+      \frac{d \vec{\Omega}}{d t} \times
+  \vec{r} & \\
+  & \vec{a}_r =
+      \vec{a}_i - 2 \vec{\Omega} \times \vec{v}_r - \vec{\Omega}
+  \times
+      (\vec{\Omega} \times \vec{r}) - \frac{d \vec{\Omega}}{d t} \times
+
+      \vec{r} &
+\end{eqnarray*}
+    </center>
+    <center>
+      \(\displaystyle m \vec{a}_r = m \vec{a}_i - 2 m \vec{\Omega} \times
+      \vec{v}_r - m \vec{\Omega}
+\times (\vec{\Omega} \times \vec{r}) - m
+      \frac{d \vec{\Omega}}{d t} \times
+\vec{r}\)
+    </center>
+    <center>
+      \begin{eqnarray*}
+  & \vec{F}_r = m \vec{a}_r & \\
+  &
+      \vec{F}_{\operatorname{imp}} = m \vec{a}_i & \\
+  &
+      \vec{F}_{\operatorname{centrifugal}} = - m \vec{\Omega} \times
+
+      (\vec{\Omega} \times \vec{r}) & \\
+  & \vec{F}_{\operatorname{Coriolis}}
+      = - 2 m \vec{\Omega} \times \vec{v}_r &
+  \\
+  &
+      \vec{F}_{\operatorname{Euler}} = - m \frac{d \vec{\Omega}}{d t} \times
+
+      \vec{r} &
+\end{eqnarray*}
+    </center>
+    <center>
+      \(\displaystyle \vec{F}_r = \vec{F}_{\operatorname{imp}}
+      +
+\vec{F}_{\operatorname{centrifugal}} +
+      \vec{F}_{\operatorname{Coriolis}} +
+\vec{F}_{\operatorname{Euler}}\)
+    </center>
+  </body>
+</html>
