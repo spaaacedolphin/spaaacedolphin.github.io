@@ -41,9 +41,9 @@
       <br>
       <div class="unit_conversions_div">
         Time conversion <br>
-        <input type="number" oninput="update_year()" class="time_box" id="year"> Years <input type="number" oninput="update_month()" class="time_box" id="month"> Months <input type="number" oninput="update_day()" class="time_box" id="day"> Days
+        <input type="number" oninput="update_time_output()" class="time_box" id="year"> Years <input type="number" oninput="update_time_output()" class="time_box" id="day"> Days
         <br>
-        <input type="number" oninput="update_hour()" class="time_box" id="hour"> Hours <input type="number" oninput="update_minute()" class="time_box" id="minute"> Minutes <input type="number" oninput="update_second()" class="time_box" id="second"> Seconds
+        <input type="number" oninput="update_time_output()" class="time_box" id="hour"> Hours <input type="number" oninput="update_time_output()" class="time_box" id="minute"> Minutes <input type="number" oninput="update_time_output()" class="time_box" id="second"> Seconds
         <br>
         = <input type="number" id="time_conversion_output"> Seconds
       </div>
@@ -62,7 +62,7 @@
       </div>
     </div>
     <script src="unit_conversions.js"></script>
-
+    
     <div id="glowscript" class="glowscript">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link type="text/css" href="https://www.glowscript.org/css/redmond/2.1/jquery-ui.custom.css" rel="stylesheet" />

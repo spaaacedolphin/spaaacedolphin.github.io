@@ -1,0 +1,94 @@
+\documentclass{article}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\newtheorem{theorem}{Theorem}
+
+\newcommand{\bb}[1]{\mathbb{#1}}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+
+\title{Transformations of Level Sets}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{General Transformation}
+
+\begin{theorem}
+Let $f: \bb{R}^n \to \bb{R}$ define a level set $D = L_0(f) = \left\{ \vec{r} \in \bb{R}^n \;\middle|\; f(\vec{r}) = 0 \right\}$. 
+If $T: \bb{R}^n \to \bb{R}^n$ is a bijective (invertible) transformation, 
+then the image set $D' = T(D)$ under $T$ is given by:
+\begin{equation}
+  D' = \left\{ \vec{r} \in \bb{R}^n \;\middle|\; (f \circ T^{-1})(\vec{r}) = 0 \right\}
+\end{equation}
+\end{theorem}
+
+\paragraph{Informal Proof}
+By definition of function composition, $ (f \circ T^{-1})(\vec{r}) = f(T^{-1}(\vec{r})) $. \\
+Letting $\vec{u} = T^{-1}(\vec{r})$, we have $\vec{r} = T(\vec{u})$. Substituting back gives:
+\begin{align*}
+  D' &= \left\{ T(\vec{u}) \;\middle|\; f(\vec{u}) = 0 \right\} \\
+  D' &= T(D)
+\end{align*}
+
+\begin{proof}
+\begin{align*}
+  \vec{r} \in T(D) &\iff \exists \vec{u} \in D \quad \text{such that} \quad \vec{r} = T(\vec{u}) \\
+  &\iff \exists \vec{u} \in \bb{R}^n \quad \text{such that} \quad f(\vec{u}) = 0 \quad \text{and} \quad \vec{u} = T^{-1}(\vec{r}) \\
+  &\iff f(T^{-1}(\vec{r})) = 0 \\
+  &\iff (f \circ T^{-1})(\vec{r}) = 0
+\end{align*}
+Therefore, $D' = T(D) = \left\{ \vec{r} \in \bb{R}^n \;\middle|\; (f \circ T^{-1})(\vec{r}) = 0 \right\}$.
+\end{proof}
+
+\section{Examples - 2D Level Sets (Level Curves)}
+
+Let $\vec{r} = \begin{pmatrix} x \\ y \end{pmatrix}$ and $D = \left\{ \begin{pmatrix} x \\ y \end{pmatrix} \;\middle|\; f(x, y) = 0 \right\}$.
+
+\subsection{Translation}
+
+For a translation vector $\Delta \vec{r} = \begin{pmatrix} \Delta x \\ \Delta y \end{pmatrix}$, the translation mapping is $T_{\Delta \vec{r}}(\vec{r}) = \vec{r} + \Delta \vec{r}$.
+
+\begin{align*}
+  D_T &= \left\{ \begin{pmatrix} x \\ y \end{pmatrix} \;\middle|\; f(x - \Delta x, y - \Delta y) = 0 \right\} \\[1ex]
+  \vec{u} &= \begin{pmatrix} x' \\ y' \end{pmatrix} = \begin{pmatrix} x - \Delta x \\ y - \Delta y \end{pmatrix} = \vec{r} - \Delta \vec{r} = T_{-\Delta \vec{r}}(\vec{r}) \\[1ex]
+  \vec{r} &= \vec{u} + \Delta \vec{r} = T_{\Delta \vec{r}}(\vec{u}) \\[1ex]
+  D_T &= \left\{ T_{\Delta \vec{r}}\left( \begin{pmatrix} x' \\ y' \end{pmatrix} \right) \;\middle|\; f(x', y') = 0 \right\} = T_{\Delta \vec{r}}(D)
+\end{align*}
+
+\subsection{Scaling}
+
+Let $S = \begin{pmatrix} s_x & 0 \\ 0 & s_y \end{pmatrix}$ be the scaling matrix, where $L_S(\vec{r}) = S\vec{r} = \begin{pmatrix} s_x x \\ s_y y \end{pmatrix}$.
+
+\begin{align*}
+  D_S &= \left\{ \begin{pmatrix} x \\ y \end{pmatrix} \;\middle|\; f\left( \frac{x}{s_x}, \frac{y}{s_y} \right) = 0 \right\} \\[1ex]
+  \vec{u} &= \begin{pmatrix} x' \\ y' \end{pmatrix} = \begin{pmatrix} x / s_x \\ y / s_y \end{pmatrix} = S^{-1}\vec{r} = L_S^{-1}(\vec{r}) \\[1ex]
+  \vec{r} &= S\vec{u} = L_S(\vec{u}) \\[1ex]
+  D_S &= \left\{ S \begin{pmatrix} x' \\ y' \end{pmatrix} \;\middle|\; f(x', y') = 0 \right\} = L_S(D)
+\end{align*}
+
+\subsection{Rotation}
+
+Let $R_{\theta} = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}$. The inverse transformation matrix is:
+\[
+  R_{\theta}^{-1} = R_{-\theta} = \begin{pmatrix} \cos\theta & \sin\theta \\ -\sin\theta & \cos\theta \end{pmatrix}
+\]
+
+Applying $R_{\theta}^{-1}$ to $\vec{r}$ yields:
+\[
+  L_{R_{\theta}^{-1}}(\vec{r}) =  R_{\theta}^{-1} \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} x\cos\theta + y\sin\theta \\ -x\sin\theta + y\cos\theta \end{pmatrix}
+\]
+
+Thus, the rotated set $D_R$ is given by:
+\begin{align*}
+  D_R &= \left\{ \begin{pmatrix} x \\ y \end{pmatrix} \;\middle|\; f(x\cos\theta + y\sin\theta, -x\sin\theta + y\cos\theta) = 0 \right\} \\[1ex]
+  \vec{u} &= \begin{pmatrix} x' \\ y' \end{pmatrix} = R_{\theta}^{-1}\vec{r} \iff \vec{r} = R_{\theta}\vec{u} \\[1ex]
+  D_R &= \left\{ R_{\theta} \begin{pmatrix} x' \\ y' \end{pmatrix} \;\middle|\; f(x', y') = 0 \right\} = L_{R_{\theta}}(D)
+\end{align*}
+
+\end{document}

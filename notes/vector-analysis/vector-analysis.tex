@@ -1,0 +1,196 @@
+\documentclass{article}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{physics}
+
+\newcommand{\bb}[1]{\mathbb{#1}}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+
+\title{Vector analysis}
+\author{}
+\date{}
+\begin{document}
+
+\maketitle
+
+\section{Triple product}
+\subsection{Scalar triple product}
+
+\[ \vec{a} \vdot \left( \vec{b} \cross \vec{c} \right) = \vec{b} \vdot \left( \vec{c} \cross \vec{a} \right) = \vec{c} \vdot \left( \vec{a} \cross \vec{b} \right) \]
+
+\subsubsection{Proof}
+
+\begin{align*}
+    \vec{a} \vdot \left( \vec{b} \cross \vec{c} \right) &= \begin{pmatrix} a_x \\ a_y \\ a_z \end{pmatrix} \vdot \begin{pmatrix} b_y c_z - b_z c_y \\ b_z c_x - b_x c_z \\ b_x c_y - b_y c_x \end{pmatrix} \\
+    &= a_x \left( b_y c_z - b_z c_y \right) + a_y \left( b_z c_x - b_x c_z \right) + a_z \left( b_x c_y - b_y c_x \right) \\
+    &= a_x b_y c_z + b_x c_y a_z + c_x a_y b_z - \left( c_x b_y a_z + b_x a_y c_z + a_x c_y b_z \right) \\
+    &= \det\left(\begin{pmatrix} \vec{a} & \vec{b} & \vec{c} \end{pmatrix}\right) = \det\left(\begin{pmatrix} \vec{b} & \vec{c} & \vec{a} \end{pmatrix}\right) = \det\left(\begin{pmatrix} \vec{c} & \vec{a} & \vec{b} \end{pmatrix}\right)
+\end{align*}
+
+
+\subsection{Vector triple product}
+
+\[ \vec{a} \cross \left( \vec{b} \cross \vec{c} \right) = \left( \vec{a} \vdot \vec{c} \right) \vec{b} - \left( \vec{a} \vdot \vec{b} \right) \vec{c} \]
+
+\subsubsection{Proof}
+
+\begin{align*}
+    \vec{a} \cross \left( \vec{b} \cross \vec{c} \right) &=
+    \begin{pmatrix} a_x \\ a_y \\ a_z \end{pmatrix} \cross \left( \begin{pmatrix} b_x \\ b_y \\ b_z \end{pmatrix} \cross \begin{pmatrix} c_x \\ c_y \\ c_z \end{pmatrix} \right) \\ 
+    &= \begin{pmatrix} a_x \\ a_y \\ a_z \end{pmatrix} \cross \begin{pmatrix} b_y c_z - b_z c_y \\ b_z c_x - b_x c_z \\ b_x c_y - b_y c_x \end{pmatrix} \\
+    &= \begin{pmatrix} a_y \left( b_x c_y - b_y c_x \right) - a_z \left( b_z c_x - b_x c_z \right) \\ a_z \left( b_y c_z - b_z c_y \right) - a_x \left( b_x c_y - b_y c_x \right) \\ a_x \left( b_z c_x - b_x c_z \right) - a_y \left( b_y c_z - b_z c_y \right) \end{pmatrix} \\
+    &= \begin{pmatrix} \left( a_y c_y + a_z c_z \right) b_x - \left( a_y b_y + a_z b_z \right) c_x + a_x b_x c_x - a_x b_x c_x \\ \left( a_z c_z + a_x c_x \right) b_y - \left( a_z b_z + a_x b_x \right) c_y + a_y b_y c_y - a_y b_y c_y \\ \left( a_x c_x + a_y c_y \right) b_z - \left( a_x b_x + a_y b_y \right) c_z + a_z b_z c_z - a_z b_z c_z \end{pmatrix} \\
+    &= \begin{pmatrix} \left( a_x c_x + a_y c_y + a_z c_z \right) b_x - \left( a_x b_x + a_y b_y + a_z b_z \right) c_x \\ \left( a_x c_x + a_y c_y + a_z c_z \right) b_y - \left( a_x b_x + a_y b_y + a_z b_z \right) c_y \\ \left( a_x c_x + a_y c_y + a_z c_z \right) b_z - \left( a_x b_x + a_y b_y + a_z b_z \right) c_z \end{pmatrix} \\
+    &= \left( \vec{a} \vdot \vec{c} \right) \vec{b} - \left( \vec{a} \vdot \vec{b} \right) \vec{c}
+\end{align*}
+
+\section{Differential operators}
+\subsection{Nabla}
+
+\[ \grad = \left( \pdv{}{x} , \pdv{}{y} , \pdv{z} \right) \]
+
+\subsection{Gradient}
+
+\[ \vec{r} = \left( x , y , z \right) \]
+
+\[ \phi : \bb{R}^3 \rightarrow \bb{R} \]
+
+\[ \text{grad}\left( \phi \left( \vec{r} \right) \right) = \grad{\phi \left( \vec{r} \right)} = \left( \pdv{\phi}{x} , \pdv{\phi}{y} , \pdv{\phi}{z} \right) \]
+
+\subsection{Divergence}
+
+\[ \vec{v} : \bb{R}^3 \rightarrow \bb{R}^3 \]
+
+\[ \vec{v} \left( \vec{r} \right) = \left( v_x \left( \vec{r} \right) , v_y \left( \vec{r} \right) , v_z \left( \vec{r} \right) \right) \]
+
+\[ \text{div}\left( \vec{v} \left( \vec{r} \right) \right) = \div{\vec{v} \left( \vec{r} \right)} = \pdv{v_x}{x} + \pdv{v_y}{y} + \pdv{v_z}{z} \]
+
+\subsection{Curl}
+
+\[ \text{curl}\left(\vec{v} \left( \vec{r} \right)\right) = \curl{\vec{v} \left( \vec{r} \right)} = \begin{pmatrix} \frac{\partial{ v_z }}{\partial{ y }} - \frac{\partial{ v_y }}{\partial{ z }} \\[0.3em] \frac{\partial{ v_x }}{\partial{ z }} - \frac{\partial{ v_z }}{\partial{ x }} \\[0.3em] \frac{\partial{ v_y }}{\partial{ x }} - \frac{\partial{ v_x }}{\partial{ y }} \end{pmatrix} \]
+
+\subsection{Laplacian}
+
+\[ \Delta = \laplacian = \div \grad = \frac{\partial^{2} {  }}{\partial{ x^{2} }} + \frac{\partial^{2} {  }}{\partial{ y^{2} }} + \frac{\partial^{2} {  }}{\partial{ z^{2} }} \]
+
+\begin{align*}
+    \laplacian{\vec{v}} &= \left( \frac{\partial^{2} {  }}{\partial{ x^{2} }} + \frac{\partial^{2} {  }}{\partial{ y^{2} }} + \frac{\partial^{2} {  }}{\partial{ z^{2} }} \right) \left( v_x , v_y , v_z \right) \\
+    &= \begin{pmatrix} \left( \frac{\partial^{2} {  }}{\partial{ x^{2} }} + \frac{\partial^{2} {  }}{\partial{ y^{2} }} + \frac{\partial^{2} {  }}{\partial{ z^{2} }} \right) v_x \\ \left( \frac{\partial^{2} {  }}{\partial{ x^{2} }} + \frac{\partial^{2} {  }}{\partial{ y^{2} }} + \frac{\partial^{2} {  }}{\partial{ z^{2} }} \right) v_y \\ \left( \frac{\partial^{2} {  }}{\partial{ x^{2} }} + \frac{\partial^{2} {  }}{\partial{ y^{2} }} + \frac{\partial^{2} {  }}{\partial{ z^{2} }} \right) v_z \end{pmatrix} \\
+    &= \left( \laplacian{v_x} , \laplacian{v_y} , \laplacian{v_z} \right)
+\end{align*}
+
+\subsection{Properties of divergence and curl}
+
+\begin{align}
+    \text{div} \left( \phi \vec{v} \right) &= \phi \, \text{div} \, \vec{v} + \vec{v} \vdot \grad{\phi} \label{prop1} \\
+    \text{div} \left( \vec{v} \cross \vec{w} \right) &= \vec{w} \vdot \text{curl} \, \vec{v} - \vec{v} \vdot \text{curl} \, \vec{w} \label{prop2} \\
+    \text{curl}\left(\phi \vec{v}\right) &= \phi \, \text{curl} \, \vec{v}  - \vec{v} \cross \grad{\phi} \label{prop3} \\
+    \text{div} \left( \grad{\phi} \right) &= \laplacian{\phi} \label{prop4} \\
+    \text{div} \left( \text{curl}\left(\vec{v}\right) \right) &= 0 \label{prop5} \\
+    \text{curl}\left(\grad{\phi}\right) &= \vec{0} \label{prop6} \\
+    \text{curl}\left(\text{curl}\left(\vec{v}\right)\right) &= \grad{\text{div} \, \vec{v}} - \laplacian{\vec{v}} \label{prop7}
+\end{align}
+
+\subsubsection{Proof of \eqref{prop1}}
+
+\begin{align*}
+    \text{div} \left( \phi \vec{v} \right) &= \div \left( \phi v_x , \phi v_y , \phi v_z \right) \\
+    &= \frac{\partial{ \phi v_x }}{\partial{ x }} + \frac{\partial{ \phi v_y }}{\partial{ y }} + \frac{\partial{ \phi v_z }}{\partial{ z }} \\
+    &= \left( \frac{\partial{ \phi }}{\partial{ x }} v_x + \phi \frac{\partial{ v_x }}{\partial{ x }} \right) + \left( \frac{\partial{ \phi }}{\partial{ y }} v_y + \phi \frac{\partial{ v_y }}{\partial{ y }} \right) + \left( \frac{\partial{ \phi }}{\partial{ z }} v_z + \phi \frac{\partial{ v_z }}{\partial{ z }} \right) \\
+    &= \phi \left( \frac{\partial{ v_x }}{\partial{ x }} + \frac{\partial{ v_y }}{\partial{ y }} + \frac{\partial{ v_z }}{\partial{ z }} \right) + \left( \frac{\partial{ \phi }}{\partial{ x }} v_x + \frac{\partial{ \phi }}{\partial{ y }} v_y + \frac{\partial{ \phi }}{\partial{ z }} v_z \right) \\
+    &= \phi \, \text{div} \, \vec{v} + \vec{v} \vdot \grad{\phi}
+\end{align*}
+
+
+\subsubsection{Proof of \eqref{prop2}}
+
+\begin{align*}
+    \text{div} \left( \vec{v} \cross \vec{w} \right) &= \div \left( \vec{v} \cross \vec{w} \right) \\
+    &= \div \begin{pmatrix} v_y w_z - v_z w_y \\ v_z w_x - v_x w_z \\ v_x w_y - v_y w_x \end{pmatrix} \\
+    &= \frac{\partial{ v_y w_z - v_z w_y }}{\partial{ x }} + \frac{\partial{ v_z w_x - v_x w_z }}{\partial{ y }} + \frac{\partial{ v_x w_y - v_y w_x }}{\partial{ z }} \\
+    &= \left( \frac{\partial{ v_y w_z }}{\partial{ x }} - \frac{\partial{ v_z w_y }}{\partial{ x }} \right) + \left( \frac{\partial{ v_z w_x }}{\partial{ y }} - \frac{\partial{ v_x w_z }}{\partial{ y }} \right) + \left( \frac{\partial{ v_x w_y }}{\partial{ z }} - \frac{\partial{ v_y w_x }}{\partial{ z }} \right) \\
+    &= \left( \frac{\partial{ v_y w_z }}{\partial{ x }} + \frac{\partial{ v_z w_x }}{\partial{ y }} + \frac{\partial{ v_x w_y }}{\partial{ z }} \right) - \left( \frac{\partial{ v_z w_y }}{\partial{ x }} + \frac{\partial{ v_x w_z }}{\partial{ y }} + \frac{\partial{ v_y w_x }}{\partial{ z }} \right) \\
+    &=\left( \frac{\partial{ v_y }}{\partial{ x }} w_z + v_y \frac{\partial{ w_z }}{\partial{ x }} + \frac{\partial{ v_z }}{\partial{ y }} w_x + v_z \frac{\partial{ w_x }}{\partial{ y }} + \frac{\partial{ v_x }}{\partial{ z }} w_y + v_x \frac{\partial{ w_y }}{\partial{ z }} \right) \\
+    &\quad - \left( \frac{\partial{ v_z }}{\partial{ x }} w_y + v_z \frac{\partial{ w_y }}{\partial{ x }} + \frac{\partial{ v_x }}{\partial{ y }} w_z + v_x \frac{\partial{ w_z }}{\partial{ y }} + \frac{\partial{ v_y }}{\partial{ z }} w_x + v_y \frac{\partial{ w_x }}{\partial{ z }} \right) \\
+    &= \left\{ \left( \frac{\partial{ v_z }}{\partial{ y }} - \frac{\partial{ v_y }}{\partial{ z }} \right) w_x + \left( \frac{\partial{ v_x }}{\partial{ z }} - \frac{\partial{ v_z }}{\partial{ x }} \right) w_y + \left( \frac{\partial{ v_y }}{\partial{ x }} - \frac{\partial{ v_x }}{\partial{ y }} \right) w_z \right\} \\
+    &\quad - \left\{ \left( \frac{\partial{ w_z }}{\partial{ y }} - \frac{\partial{ w_y }}{\partial{ z }} \right) v_x + \left( \frac{\partial{ w_x }}{\partial{ z }} - \frac{\partial{ w_z }}{\partial{ x }} \right) v_y + \left( \frac{\partial{ w_y }}{\partial{ x }} - \frac{\partial{ w_x }}{\partial{ y }} \right) v_z \right\} \\
+    &= \vec{w} \vdot \text{curl} \, \vec{v} - \vec{v} \vdot \text{curl} \, \vec{w}
+\end{align*}
+
+\subsubsection{Proof of \eqref{prop3}}
+
+\begin{align*}
+    \text{curl}\left(\phi \vec{v}\right) &= \curl \left( \phi v_x , \phi v_y , \phi v_z \right) \\
+    &= \begin{pmatrix} \frac{\partial{ \phi v_z }}{\partial{ y }} - \frac{\partial{ \phi v_y }}{\partial{ z }} \\[0.3em] \frac{\partial{ \phi v_x }}{\partial{ z }} - \frac{\partial{ \phi v_z }}{\partial{ x }} \\[0.3em] \frac{\partial{ \phi v_y }}{\partial{ x }} - \frac{\partial{ \phi v_x }}{\partial{ y }} \end{pmatrix} \\
+    &= \begin{pmatrix} \left( \frac{\partial{ \phi }}{\partial{ y }} v_z + \phi \frac{\partial{ v_z }}{\partial{ y }} \right) - \left( \frac{\partial{ \phi }}{\partial{ z }} v_y + \phi \frac{\partial{ v_y }}{\partial{ z }} \right) \\ \left( \frac{\partial{ \phi }}{\partial{ z }} v_x + \phi \frac{\partial{ v_x }}{\partial{ z }} \right) - \left( \frac{\partial{ \phi }}{\partial{ x }} v_z + \phi \frac{\partial{ v_z }}{\partial{ x }} \right) \\ \left( \frac{\partial{ \phi }}{\partial{ x }} v_y + \phi \frac{\partial{ v_y }}{\partial{ x }} \right) - \left( \frac{\partial{ \phi }}{\partial{ y }} v_x + \phi \frac{\partial{ v_x }}{\partial{ y }} \right) \end{pmatrix} \\
+    &= \phi \begin{pmatrix} \frac{\partial{ v_z }}{\partial{ y }} - \frac{\partial{ v_y }}{\partial{ z }} \\[0.3em] \frac{\partial{ v_x }}{\partial{ z }} - \frac{\partial{ v_z }}{\partial{ x }} \\[0.3em] \frac{\partial{ v_y }}{\partial{ x }} - \frac{\partial{ v_x }}{\partial{ y }} \end{pmatrix} - \begin{pmatrix} \frac{\partial{ \phi }}{\partial{ z }} v_y - \frac{\partial{ \phi }}{\partial{ y }} v_z \\[0.3em] \frac{\partial{ \phi }}{\partial{ x }} v_z - \frac{\partial{ \phi }}{\partial{ z }} v_x \\[0.3em] \frac{\partial{ \phi }}{\partial{ y }} v_x - \frac{\partial{ \phi }}{\partial{ x }} v_y \end{pmatrix} \\
+    &= \phi \, \text{curl} \, \vec{v} - \vec{v} \cross \grad{\phi}
+\end{align*}
+
+\subsubsection{Proof of \eqref{prop4}}
+
+\begin{align*}
+    \text{div} \left( \grad{\phi} \right) &= \div \left( \frac{\partial{ \phi }}{\partial{ x }} , \frac{\partial{ \phi }}{\partial{ y }} , \frac{\partial{ \phi }}{\partial{ z }} \right) \\
+    &= \frac{\partial^{2} { \phi }}{\partial{ x^{2} }} + \frac{\partial^{2} { \phi }}{\partial{ y^{2} }} + \frac{\partial^{2} { \phi }}{\partial{ z^{2} }} = \laplacian{\phi}
+\end{align*}
+
+\subsubsection{Proof of \eqref{prop5}}
+
+\begin{align*}
+    \text{div} \left( \text{curl}\left(\vec{v}\right) \right) &= \div \begin{pmatrix} \frac{\partial{ v_z }}{\partial{ y }} - \frac{\partial{ v_y }}{\partial{ z }} \\[0.3em] \frac{\partial{ v_x }}{\partial{ z }} - \frac{\partial{ v_z }}{\partial{ x }} \\[0.3em] \frac{\partial{ v_y }}{\partial{ x }} - \frac{\partial{ v_x }}{\partial{ y }} \end{pmatrix} \\
+    &= \frac{\partial{  }}{\partial{ x }} \left( \frac{\partial{ v_z }}{\partial{ y }} - \frac{\partial{ v_y }}{\partial{ z }} \right) + \frac{\partial{  }}{\partial{ y }} \left( \frac{\partial{ v_x }}{\partial{ z }} - \frac{\partial{ v_z }}{\partial{ x }} \right) + \frac{\partial{  }}{\partial{ z }} \left( \frac{\partial{ v_y }}{\partial{ x }} - \frac{\partial{ v_x }}{\partial{ y }} \right) \\
+    &= \frac{\partial^{2} { v_z }}{\partial{ x \partial{ y } }} - \frac{\partial^{2} { v_y }}{\partial{ x \partial{ z } }} + \frac{\partial^{2} { v_x }}{\partial{ y \partial{ z } }} - \frac{\partial^{2} { v_z }}{\partial{ y \partial{ x } }} + \frac{\partial^{2} { v_y }}{\partial{ z \partial{ x } }} - \frac{\partial^{2} { v_x }}{\partial{ z \partial{ y } }} \\
+    &= \left( \frac{\partial^{2} { v_x }}{\partial{ y \partial{ z } }} - \frac{\partial^{2} { v_x }}{\partial{ z \partial{ y } }} \right) + \left( \frac{\partial^{2} { v_y }}{\partial{ z \partial{ x } }} - \frac{\partial^{2} { v_y }}{\partial{ x \partial{ z } }} \right) + \left( \frac{\partial^{2} { v_z }}{\partial{ x \partial{ y } }} - \frac{\partial^{2} { v_z }}{\partial{ y \partial{ x } }} \right) = 0
+\end{align*}
+
+(assuming \( \vec{v} \) is at least of class \( C^{2} \))
+
+\subsubsection{Proof of \eqref{prop6}}
+
+\begin{align*}
+    \text{curl}\left(\grad{\phi}\right) &= \curl \left( \frac{\partial{ \phi }}{\partial{ x }} , \frac{\partial{ \phi }}{\partial{ y }} , \frac{\partial{ \phi }}{\partial{ z }} \right) \\
+    &= \begin{pmatrix} \frac{\partial^{2} { \phi }}{\partial{ y \partial{ z } }} - \frac{\partial^{2} { \phi }}{\partial{ z \partial{ y } }} \\[0.3em] \frac{\partial^{2} { \phi }}{\partial{ z \partial{ x } }} - \frac{\partial^{2} { \phi }}{\partial{ x \partial{ z } }} \\[0.3em] \frac{\partial^{2} { \phi }}{\partial{ x \partial{ y } }} - \frac{\partial^{2} { \phi }}{\partial{ y \partial{ x } }} \end{pmatrix} = \vec{0} \\
+\end{align*}
+
+
+(assuming \( \phi \) is at least of class \( C^{2} \))
+
+\subsubsection{Proof of \eqref{prop7}}
+
+\begin{align*}
+    \text{curl}\left(\text{curl}\left(\vec{v}\right)\right) &= \curl \begin{pmatrix} \frac{\partial{ v_z }}{\partial{ y }} - \frac{\partial{ v_y }}{\partial{ z }} \\ \frac{\partial{ v_x }}{\partial{ z }} - \frac{\partial{ v_z }}{\partial{ x }} \\ \frac{\partial{ v_y }}{\partial{ x }} - \frac{\partial{ v_x }}{\partial{ y }} \end{pmatrix} \\
+    &= \begin{pmatrix} \frac{\partial{  }}{\partial{ y }} \left( \frac{\partial{ v_y }}{\partial{ x }} - \frac{\partial{ v_x }}{\partial{ y }} \right) - \frac{\partial{  }}{\partial{ z }} \left( \frac{\partial{ v_x }}{\partial{ z }} - \frac{\partial{ v_z }}{\partial{ x }} \right) \\ \frac{\partial{  }}{\partial{ z }} \left( \frac{\partial{ v_z }}{\partial{ y }} - \frac{\partial{ v_y }}{\partial{ z }} \right) - \frac{\partial{  }}{\partial{ x }} \left( \frac{\partial{ v_y }}{\partial{ x }} - \frac{\partial{ v_x }}{\partial{ y }} \right) \\ \frac{\partial{  }}{\partial{ x }} \left( \frac{\partial{ v_x }}{\partial{ z }} - \frac{\partial{ v_z }}{\partial{ x }} \right) - \frac{\partial{  }}{\partial{ y }} \left( \frac{\partial{ v_z }}{\partial{ y }} - \frac{\partial{ v_y }}{\partial{ z }} \right) \end{pmatrix} \\
+    &= \begin{pmatrix} \frac{\partial^{2} { v_y }}{\partial{ y \partial{ x } }} - \frac{\partial^{2} { v_x }}{\partial{ y^{2} }} - \frac{\partial^{2} { v_x }}{\partial{ z^{2} }} + \frac{\partial^{2} { v_z }}{\partial{ z \partial{ x } }} \\ \frac{\partial^{2} { v_z }}{\partial{ z \partial{ y } }} - \frac{\partial^{2} { v_y }}{\partial{ z^{2} }} - \frac{\partial^{2} { v_y }}{\partial{ x^{2} }} + \frac{\partial^{2} { v_x }}{\partial{ x \partial{ y } }} \\ \frac{\partial^{2} { v_x }}{\partial{ x \partial{ z } }} - \frac{\partial^{2} { v_z }}{\partial{ x^{2} }} - \frac{\partial^{2} { v_z }}{\partial{ y^{2} }} + \frac{\partial^{2} { v_y }}{\partial{ y \partial{ z } }} \end{pmatrix} \\
+    &= \begin{pmatrix} \frac{\partial^{2} { v_x }}{\partial{ x^{2} }} + \frac{\partial^{2} { v_y }}{\partial{ y \partial{ x } }} + \frac{\partial^{2} { v_z }}{\partial{ z \partial{ x } }} - \frac{\partial^{2} { v_x }}{\partial{ x^{2} }} - \frac{\partial^{2} { v_x }}{\partial{ y^{2} }} - \frac{\partial^{2} { v_x }}{\partial{ z^{2} }} \\ \frac{\partial^{2} { v_x }}{\partial{ x \partial{ y } }} + \frac{\partial^{2} { v_y }}{\partial{ y^{2} }} + \frac{\partial^{2} { v_z }}{\partial{ z \partial{ y } }} - \frac{\partial^{2} { v_y }}{\partial{ x^{2} }} - \frac{\partial^{2} { v_y }}{\partial{ y^{2} }} - \frac{\partial^{2} { v_y }}{\partial{ z^{2} }} \\ \frac{\partial^{2} { v_x }}{\partial{ x \partial{ z } }} + \frac{\partial^{2} { v_y }}{\partial{ y \partial{ z } }} + \frac{\partial^{2} { v_z }}{\partial{ z^{2} }} - \frac{\partial^{2} { v_z }}{\partial{ x^{2} }} - \frac{\partial^{2} { v_z }}{\partial{ y^{2} }} - \frac{\partial^{2} { v_z }}{\partial{ z^{2} }} \end{pmatrix} \\
+    &= \begin{pmatrix} \frac{\partial{  }}{\partial{ x }} \left( \frac{\partial{ v_x }}{\partial{ x }} + \frac{\partial{ v_y }}{\partial{ y }} + \frac{\partial{ v_z }}{\partial{ z }} \right) \\ \frac{\partial{  }}{\partial{ y }} \left( \frac{\partial{ v_x }}{\partial{ x }} + \frac{\partial{ v_y }}{\partial{ y }} + \frac{\partial{ v_z }}{\partial{ z }} \right) \\ \frac{\partial{  }}{\partial{ z }} \left( \frac{\partial{ v_x }}{\partial{ x }} + \frac{\partial{ v_y }}{\partial{ y }} + \frac{\partial{ v_z }}{\partial{ z }} \right) \end{pmatrix} - \left( \laplacian{v_x} , \laplacian{v_y} , \laplacian{v_z} \right) \\
+    &= \grad{\text{div} \, \vec{v}} - \laplacian{\vec{v}}
+\end{align*}
+
+(assuming \( \vec{v} \) is at least of class \( C^{2} \))
+
+\section{Integral theorems}
+
+\subsection{Gradient theorem}
+\[ C: \vec{r_0} \rightarrow \vec{r_1} \]
+\[ \int_C \grad{\phi(\vec{r})} \vdot d\vec{r} = \phi(\vec{r_1}) - \phi(\vec{r_0}) \]
+
+\subsubsection{Proof}
+if $\vec{r}$ is a function of $t$; $\vec{r}(t)$, where $\vec{r}(t_0)=\vec{r_0}, \; \vec{r}(t_1)=\vec{r_1}$,\\
+by the multivariate chain rule,
+\[ \frac{d}{dt} \phi\left(\vec{r}(t)\right) = \grad{\phi \left(\vec{r}(t)\right)} \vdot \frac{d\vec{r}}{dt}(t)  \]
+\begin{align*}
+    \int_C \grad{\phi(\vec{r})} \vdot d\vec{r} &= \int_{t_0}^{t_1} \grad{\phi \left(\vec{r}(t)\right)} \vdot \frac{d\vec{r}}{dt}(t) \, dt \\
+    &= \int_{t_0}^{t_1} \frac{d}{dt} \phi\left(\vec{r}(t)\right) dt \\
+    &= \phi \left(\vec{r}(t_1)\right) - \phi \left(\vec{r}(t_0)\right) \\
+    &= \phi \left(\vec{r_1}\right) - \phi \left(\vec{r_0}\right)
+\end{align*}
+
+\subsection{Divergence theorem}
+\[ d\vec{S} = \hat{n} dS \]
+\[ \oint_S \vec{F} \vdot d\vec{S} = \int_V \left( \div{\vec{F}} \right) dV \]
+
+\subsection{Curl theorem}
+\[ \oint_C \vec{F} \vdot d\vec{r} = \int_S \left( \curl{\vec{F}} \right) \vdot d\vec{S} \]
+
+\end{document}

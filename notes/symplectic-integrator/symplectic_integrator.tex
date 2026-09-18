@@ -1,0 +1,327 @@
+%!BIB program = bibtex
+\documentclass{article}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{physics}
+
+\newcommand{\bb}[1]{\mathbb{#1}}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+\renewcommand{\order}[1]{\mathcal{O}\big(#1\big)}
+
+\title{Symplectic integrator}
+\author{}
+\date{}
+\begin{document}
+
+\maketitle
+
+\section{Hamiltonian mechanics}
+
+\subsection{Generalized Momentum}
+The generalized momentum $p_i$ corresponding to the generalized coordinate $q^i$ is given by:
+\[ p_i = \pdv{L}{\dot{q}^i} \]
+where $L$ is the Lagrangian.
+
+\subsection{Hamiltonian}
+Hamiltonian $H$ is given by:
+\[ H(q,p,t) = \sum_i p_i \, \dot{q}^i(q,p) - L(q,\dot{q}(q,p),t) \]
+where $L(q,\dot{q}(q,p),t)$ is the Lagrangian.
+
+\subsection{Hamilton's Equations}
+\begin{align*}
+	\dot{q}^i &= \pdv{H}{p_i} \\
+	\dot{p}_i &= -\pdv{H}{q^i}
+\end{align*}
+
+Or in vector notation,
+\[ \vec{z} = 
+\begin{pmatrix}
+	\vec{q} \\
+	\vec{p}	
+\end{pmatrix} \, , \
+J = 
+\begin{pmatrix}
+	0 & I \\
+	-I & 0
+\end{pmatrix} \]
+
+\[ \dot{\vec{z}} = J \grad_{\vec{z}}{H(\vec{z})} \]
+
+\section{Poisson Bracket}
+
+\[ \{ A(q,p,t) , B(q,p,t) \} = \sum_i \left( \pdv{A}{q^i} \pdv{B}{p_i} - \pdv{B}{q^i} \pdv{A}{p_i} \right) \]
+
+\[ \dv{A(q,p,t)}{t} = \{ A,H \} + \pdv{A}{t} \]
+
+\section{Symplectic Condition}
+
+Under a canonical transformation ($\vec{z} \to \vec{w}$) :
+\begin{align*}
+	\dot{\vec{z}} &= J \grad_{\vec{z}}{H(\vec{z})} \\
+	\dot{\vec{w}} &= J \grad_{\vec{w}}{H(\vec{w})}
+\end{align*}
+The Jacobian matrix $M$ is defined as
+\[ M_{ij} = \pdv{w_i}{z_j} \]
+Using the chain rule:
+\begin{align*}
+	(\grad_{\vec{z}}{H})_i &= \pdv{H}{z_i}\\
+	\pdv{H}{z_i} &= \sum_j \pdv{H}{w_j} \pdv{w_j}{z_i} \\
+	&= \sum_j (M^T)_{ij} (\grad_w H)_j \\
+	\grad_{\vec{z}}{H(\vec{z})} &= M^T \grad_w{H(\vec{w})}
+\end{align*}
+
+\begin{align*}
+	\dv{w_i}{t} &= \sum_j \pdv{w_i}{z_j} \dv{z_j}{t} \\
+	\dot{w_i} &= \sum_j M_{ij} \dot{z_j} \\
+	\dot{\vec{w}} &= M \dot{\vec{z}} \\
+	&= M J \grad_{\vec{z}}{H(\vec{z})} \\
+	&= M J M^T \grad_{\vec{w}}{H(\vec{w})}
+\end{align*}
+Canonical transformation $\iff$ the symplectic condition:
+\[ M J M^T = J \]
+
+\section{Splitting methods for separable Hamiltonians}
+\[ \hat{D}_f = \{ \cdot , f \} \]
+\begin{equation} \label{eq:Hamilton_eq_simplified}
+	\dot{\vec{z}} = \{ \vec{z}, H \} = \hat{D}_H \vec{z}
+\end{equation}
+By Taylor expansion:
+\begin{align*}
+	\vec{z}(t+\Delta t) &= \sum_{n=0}^{\infty} \frac{1}{n!} \dv[n]{\vec{z}(t)}{t} \left( \Delta t \right)^n \\
+	&= \sum_{n=0}^{\infty} \frac{1}{n!}(\Delta t)^n \hat{D}_H^n \, \vec{z}(t) \\
+	&= \exp(\Delta t \hat{D}_H) \vec{z}(t)
+\end{align*}
+
+Thus, the exact solution of \eqref{eq:Hamilton_eq_simplified} is given by:
+\[ \vec{z}(t) = \exp(t \hat{D}_H) \vec{z}(0) \]
+
+If the Hamiltonian is separable, 
+\[ H(\vec{q},\vec{p}) = K(\vec{p}) + U(\vec{q}) \]
+
+the operator splits as:
+\begin{align*}
+	\hat{D}_H &= \{ \cdot , H \} =\{ \cdot , K+U \} \\
+	&= \{ \cdot, K\} + \{ \cdot, U\} \\
+	&= \hat{D}_K + \hat{D}_U
+\end{align*}
+\[ \exp(\Delta t \hat{D}_H) = \exp(\Delta t (\hat{D}_K + \hat{D}_U) ) = \exp(\Delta t \hat{D}_K + \Delta t \hat{D}_U ) \]
+
+Because $\hat{D}_K$ and $\hat{D}_U$ are non-commutative operators ($[\hat{D}_K, \hat{D}_U] \neq 0$),
+\[ \exp(\Delta t \hat{D}_K + \Delta t \hat{D}_U ) \neq \exp(\Delta t \hat{D}_K) \exp(\Delta t \hat{D}_U) \]
+(refer to the Baker--Campbell--Hausdorff formula)
+
+Instead, the time-evolution operator $\exp(\Delta t (\hat{D}_K + \hat{D}_U) )$ can be approximated by a product of operators:
+\begin{equation}\label{eq:time-evolution_op_prod_approx}
+	\exp(\Delta t (\hat{D}_K + \hat{D}_U) ) = \prod_{i=k,\cdots,1} \exp(d_i \Delta t \hat{D}_K) \exp(c_i \Delta t \hat{D}_U) + \order{(\Delta t)^{k+1}}
+\end{equation}
+where $k\in \bb{N}$ represents the order of the integrator, and $c_i, d_i \in \bb{R} \ (i = 1,\cdots,k)$ are coefficients chosen such that the residual error is of the order of $(\Delta t)^{k+1}$
+
+In a direct approach, conditions for the coefficients are found by comparing the Taylor expansions of both sides of \eqref{eq:time-evolution_op_prod_approx}
+\begin{align*}
+	\exp(\Delta t (\hat{D}_K + \hat{D}_U) ) &= \sum_{n=0}^{k} \frac{1}{n!}(\Delta t)^n (\hat{D}_K + \hat{D}_U)^n + \order{(\Delta t)^{k+1}} \\
+	\exp(d_i \Delta t \hat{D}_K) &= \sum_{n=0}^{k} \frac{1}{n!}d_i^n(\Delta t)^n \hat{D}_K^n + \order{(\Delta t)^{k+1}} \\
+	\exp(c_i \Delta t \hat{D}_U) &= \sum_{n=0}^{k} \frac{1}{n!}c_i^n(\Delta t)^n \hat{D}_U^n + \order{(\Delta t)^{k+1}}
+\end{align*}
+
+\subsection{First-Order Integrator ($k=1$)}
+\begin{align*}
+	\exp(\Delta t (\hat{D}_K + \hat{D}_U) ) &= 1 + \Delta t (\hat{D}_K + \hat{D}_U) + \order{(\Delta t)^2} \\
+	\exp(d_i \Delta t \hat{D}_K) &= 1 + d_i \Delta t \hat{D}_K + \order{(\Delta t)^2} \\
+	\exp(c_i \Delta t \hat{D}_U) &= 1 + c_i \Delta t \hat{D}_U + \order{(\Delta t)^2} \\
+	\exp(d_1 \Delta t \hat{D}_K) \exp(c_1 \Delta t \hat{D}_U) &= 1 + \Delta t (d_1 \hat{D}_K + c_1 \hat{D}_U) + \order{(\Delta t)^2}
+\end{align*}
+
+The solution is Lie product formula:
+\[ c_1 = d_1 =1 \]
+\[ \exp(\Delta t (\hat{D}_K + \hat{D}_U) ) = \exp(\Delta t \hat{D}_K) \exp(\Delta t \hat{D}_U) + \order{(\Delta t)^2} \]
+This corresponds to the Symplectic Euler method.
+
+\subsection*{Second-Order Integrator ($k=2$)}
+\begin{align*}
+	\exp(\Delta t (\hat{D}_K + \hat{D}_U) ) &= 1 + \Delta t (\hat{D}_K + \hat{D}_U) + \frac{1}{2} (\Delta t)^2 (\hat{D}_K^2 + \hat{D}_U \hat{D}_K + \hat{D}_K \hat{D}_U + \hat{D}_U^2) + \order{(\Delta t)^3} \\
+	\exp(d_i \Delta t \hat{D}_K) &= 1 + d_i \Delta t \hat{D}_K + \frac{1}{2} d_i^2 (\Delta t)^2 \hat{D}_K^2 + \order{(\Delta t)^3} \\
+	\exp(c_i \Delta t \hat{D}_U) &= 1 + c_i \Delta t \hat{D}_U + \frac{1}{2} c_i^2 (\Delta t)^2 \hat{D}_U^2 + \order{(\Delta t)^3} \\
+	\prod_{i=2,1} \exp(d_i \Delta t \hat{D}_K) \exp(c_i \Delta t \hat{D}_U) &= 1 + \Delta t \left( (d_1+d_2) \hat{D}_K + (c_1+c_2) \hat{D}_U \right) \\
+	&\quad +(\Delta t)^2 \left( \frac{1}{2} (d_1 + d_2)^2 \hat{D}_K^2 + \frac{1}{2} (c_1 + c_2)^2 \hat{D}_U^2 + (d_1 c_1 + d_2 c_2) \hat{D}_K \hat{D}_U + c_2 d_1 \hat{D}_U \hat{D}_K \right)
+\end{align*}
+\[ d_1 + d_2 = 1 \, , \ c_1 + c_2 = 1 \, , \ d_1 c_1 + d_2 c_2 = \frac{1}{2} \, , \ d_1 c_2 = \frac{1}{2} \]
+\begin{gather*}
+	d_2 = 1 - d_1 \, , \ c_2 = 1 - c_1 \\
+	d_1 c_1 + (1 - d_1)(1 - c_1) = \frac{1}{2} \, , \ d_1 (1 - c_1) = \frac{1}{2} \\
+	2d_1 c_1 -d_1 -c_1 = -\frac{1}{2} \, , \ d_1 - \frac{1}{2} = d_1 c_1 \\
+	d_1 - c_1 = \frac{1}{2}
+\end{gather*}
+Two prominent solutions emerge (Strang Splitting):
+\[ c_1 = \frac{1}{2} \, , \ d_1 = 1 \, , \ c_2 = \frac{1}{2} \, , \ d_2 = 0 \]
+\[ \exp(\Delta t (\hat{D}_K + \hat{D}_U) ) = \exp(\frac{1}{2} \Delta t \hat{D}_U ) \exp(\Delta t \hat{D}_K) \exp(\frac{1}{2} \Delta t \hat{D}_U ) + \order{(\Delta t)^3} \]
+which correspons to 'kick-drift-kick' form of leapfrog integration, and
+
+\[ c_1 = 0 \, , \ d_1 = \frac{1}{2} \, , \ c_2 = 1 \, , \ d_2 = \frac{1}{2} \]
+\[ \exp(\Delta t (\hat{D}_K + \hat{D}_U) ) = \exp(\frac{1}{2} \Delta t \hat{D}_K ) \exp(\Delta t \hat{D}_U) \exp(\frac{1}{2} \Delta t \hat{D}_K ) + \order{(\Delta t)^3} \]
+which correspons to 'drift-kick-drift' form of leapfrog integration.
+
+In general, two conditions emerge from the coefficients of $\hat{D}_K$ and $\hat{D}_U$,
+\[ \sum_{i=1}^{k} c_i = 1 \, , \ \sum_{i=1}^{k} d_i = 1 \]
+and higher order terms provide additional conditions.
+
+However, as noted by Yoshida: \textit{``with this direct method, it is almost hopeless to obtain a much higher integrator''} \cite{YOSHIDA1990262}.
+Instead, coefficient sets for higher-order integrators (e.g., $k=4$) are systematically derived using the Baker--Campbell--Hausdorff formula (see Yoshida \cite{YOSHIDA1990262}).
+
+\subsection{Action on Phase-Space Vectors}
+Because the Hamiltonian is separable,
+\begin{gather*}
+	\dot{q}^i = \pdv{H}{p_i} = \pdv{K}{p_i} \\
+	\dot{p}_i = -\pdv{H}{q^i} = -\pdv{U}{q^i}
+\end{gather*}
+\begin{align*}
+	\hat{D}_K \vec{z} = \{ \vec{z}, K \} =
+	\begin{pmatrix}
+		\{ \vec{q}, K \} \\
+		\{ \vec{p}, K \}
+	\end{pmatrix} 
+\end{align*}
+\begin{align*}
+	\{ \vec{q}, K \} &= 
+	\begin{pmatrix}
+		\{ q_1, K \} \\
+		\vdots \\
+		\{ q_n, K \}
+	\end{pmatrix} \\
+	&=
+	\begin{pmatrix}
+		\sum_i \left( \pdv{q_1}{q^i} \pdv{K}{p_i} - \pdv{K}{q^i} \pdv{q_1}{p_i} \right) \\
+		\vdots \\
+		\sum_i \left( \pdv{q_n}{q^i} \pdv{K}{p_i} - \pdv{K}{q^i} \pdv{q_n}{p_i} \right)
+	\end{pmatrix} \\
+	&=
+	\begin{pmatrix}
+		\pdv{K}{p_1} \\
+		\vdots \\
+		\pdv{K}{p_n}
+	\end{pmatrix} =
+	\begin{pmatrix}
+		\dot{q}^1 \\
+		\vdots \\
+		\dot{q}^n
+	\end{pmatrix}
+	= \dot{\vec{q}}
+\end{align*}
+\begin{align*}
+	\{ \vec{p}, K \} &= 
+	\begin{pmatrix}
+		\{ p_1, K \} \\
+		\vdots \\
+		\{ p_n, K \}
+	\end{pmatrix} \\
+	&=
+	\begin{pmatrix}
+		\sum_i \left( \pdv{p_1}{q^i} \pdv{K}{p_i} - \pdv{K}{q^i} \pdv{p_1}{p_i} \right) \\
+		\vdots \\
+		\sum_i \left( \pdv{p_n}{q^i} \pdv{K}{p_i} - \pdv{K}{q^i} \pdv{p_n}{p_i} \right)
+	\end{pmatrix} \\
+	&=
+	\begin{pmatrix}
+		0 \\
+		\vdots \\
+		0
+	\end{pmatrix} = \vec{0}
+\end{align*}
+\begin{equation}
+	\hat{D}_K \vec{z} = \{ \vec{z}, K \} =
+\begin{pmatrix}
+	\dot{\vec{q}} \\
+	\vec{0}
+\end{pmatrix}
+\end{equation}
+\begin{equation}
+	\hat{D}_K^2 \vec{z} = \{ \{ \vec{z}, K \}, K \} =
+	\begin{pmatrix}
+		\{ \dot{\vec{q}}, K \} \\
+		\{ \vec{0}, K \}
+	\end{pmatrix} = \vec{0}
+\end{equation}
+
+\begin{align*}
+	\hat{D}_U \vec{z} = \{ \vec{z}, U \} =
+	\begin{pmatrix}
+		\{ \vec{q}, U \} \\
+		\{ \vec{p}, U \}
+	\end{pmatrix} 
+\end{align*}
+\begin{align*}
+	\{ \vec{q}, U \} &= 
+	\begin{pmatrix}
+		\{ q_1, U \} \\
+		\vdots \\
+		\{ q_n, U \}
+	\end{pmatrix} \\
+	&=
+	\begin{pmatrix}
+		\sum_i \left( \pdv{q_1}{q^i} \pdv{U}{p_i} - \pdv{U}{q^i} \pdv{q_1}{p_i} \right) \\
+		\vdots \\
+		\sum_i \left( \pdv{q_n}{q^i} \pdv{U}{p_i} - \pdv{U}{q^i} \pdv{q_n}{p_i} \right)
+	\end{pmatrix} \\
+	&=
+	\begin{pmatrix}
+		0 \\
+		\vdots \\
+		0
+	\end{pmatrix} = \vec{0}
+\end{align*}
+\begin{align*}
+	\{ \vec{p}, U \} &= 
+	\begin{pmatrix}
+		\{ p_1, U \} \\
+		\vdots \\
+		\{ p_n, U \}
+	\end{pmatrix} \\
+	&=
+	\begin{pmatrix}
+		\sum_i \left( \pdv{p_1}{q^i} \pdv{U}{p_i} - \pdv{U}{q^i} \pdv{p_1}{p_i} \right) \\
+		\vdots \\
+		\sum_i \left( \pdv{p_n}{q^i} \pdv{U}{p_i} - \pdv{U}{q^i} \pdv{p_n}{p_i} \right)
+	\end{pmatrix} \\
+	&=
+	\begin{pmatrix}
+		-\pdv{U}{q^1} \\
+		\vdots \\
+		-\pdv{U}{q^n}
+	\end{pmatrix} =
+	\begin{pmatrix}
+		\dot{p}_1 \\
+		\vdots \\
+		\dot{p}_n
+	\end{pmatrix}
+	= \dot{\vec{p}}
+\end{align*}
+\begin{equation}
+	\hat{D}_U \vec{z} = \{ \vec{z}, U \} =
+\begin{pmatrix}
+	\vec{0} \\
+	\dot{\vec{p}}
+\end{pmatrix}
+\end{equation}
+\begin{equation}
+	\hat{D}_U^2 \vec{z} = \{ \{ \vec{z}, U \}, U \} =
+	\begin{pmatrix}
+		\{ \vec{0}, U \} \\
+		\{ \dot{\vec{p}}, U \}
+	\end{pmatrix} = \vec{0}
+\end{equation}
+
+Using a Taylor expansion, for $\alpha \in \bb{R}$,
+\begin{align*}
+	\exp(\alpha\hat{D}_U) \vec{z} &= \sum_{n=0}^{\infty} \frac{\alpha^n\hat{D}_U^n}{n!} \vec{z} = (1 + \alpha\hat{D}_U) \vec{z} \\
+	\exp(\alpha\hat{D}_K) \vec{z} &= \sum_{n=0}^{\infty} \frac{\alpha^n\hat{D}_K^n}{n!} \vec{z} = (1 + \alpha\hat{D}_K) \vec{z}
+\end{align*}
+
+\begin{align*}
+	\exp(c_i \Delta t \hat{D}_U) \begin{pmatrix} \vec{q} \\ \vec{p} \end{pmatrix} &= \begin{pmatrix} \vec{q} \\ \vec{p} + c_i \Delta t \dot{\vec{p}}\end{pmatrix} \\
+	\exp(d_i \Delta t \hat{D}_K) \begin{pmatrix} \vec{q} \\ \vec{p} \end{pmatrix} &= \begin{pmatrix} \vec{q} + d_i \Delta t \dot{\vec{q}} \\ \vec{p} \end{pmatrix}
+\end{align*}
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}

@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{physics}
+
+\begin{document}
+
+\begin{align*}
+	\vec{r} (t) &= x (t) \hat{x} + y (t) \hat{y} + z (t) \hat{z} \\
+	& = x' (t) \hat{i} + y' (t) \hat{j} + z' (t) \hat{k}
+\end{align*}
+Here, $\hat{i},\hat{j},\hat{k}$ are time-dependent, rotating unit vectors.
+\begin{align*}
+	\dv{\hat{i}}{t} &= \vec{\Omega} \cross \hat{i} \\
+	\dv{\hat{j}}{t} &= \vec{\Omega} \cross \hat{j} \\
+	\dv{\hat{k}}{t} &= \vec{\Omega} \cross \hat{k}
+\end{align*}
+\begin{align*}
+	\dv{\vec{r}}{t} &= \left( \dv{x'}{t} \hat{i} + x'  \dv{\hat{i}}{t}  \right) + \left( \dv{y'}{t} \hat{j} + y' \dv{\hat{j}}{t} \right) + \left( \dv{z'}{t} \hat{k} + z' \dv{\hat{k}}{t} \right) \\
+	&= \left( \dv{x'}{t} \hat{i} + \dv{y'}{t} \hat{j} + \dv{z'}{t} \hat{k} \right) + x' (\vec{\Omega} \cross \hat{i}) + y' (\vec{\Omega} \cross \hat{j}) + z' (\vec{\Omega} \cross \hat{k}) \\
+	&= \left( \dv{x'}{t} \hat{i} + \dv{y'}{t} \hat{j} + \dv{z'}{t} \hat{k} \right) + \vec{\Omega} \cross (x' \hat{i} + y'\hat{j} + z' \hat{k})
+\end{align*}
+\begin{align*}
+	\vec{v}_i &:= \dv{\vec{r}}{t} \\
+	\vec{v}_r &:= \dv{x'}{t} \hat{i} + \dv{y'}{t} \hat{j} + \dv{z'}{t} \hat{k}
+\end{align*}
+\begin{align*}
+	\vec{v}_i &= \vec{v}_r + \vec{\Omega} \cross \vec{r} \\
+	\vec{v}_r &= \vec{v}_i - \vec{\Omega} \cross \vec{r}
+\end{align*}
+\begin{align*}
+	\dv{\vec{v}_i}{t} &= \dv{\vec{v}_r}{t} + \dv{t} (\vec{\Omega} \cross \vec{r}) \\
+	&= \dv{t} \left( \dv{x'}{t} \hat{i} + \dv{y'}{t} \hat{j} + \dv{z'}{t} \hat{k} \right) + \left( \dv{\vec{\Omega}}{t}  \cross \vec{r} + \vec{\Omega} \cross \dv{\vec{r}}{t} \right) \\
+	&= \left( \dv[2]{x'}{t} \hat{i} + \dv[2]{y'}{t} \hat{j} + \dv[2]{z'}{t} \hat{k} \right) + \vec{\Omega} \cross \left( \dv{x'}{t} \hat{i} + \dv{y'}{t} \hat{j} + \dv{z'}{t} \hat{k} \right) + \dv{\vec{\Omega}}{t}  \cross \vec{r} + \vec{\Omega} \cross \vec{v}_i
+\end{align*}
+\begin{align*}
+	\vec{a}_i &:= \dv{\vec{v}_i}{t} \\
+	\vec{a}_r &:= \dv[2]{x'}{t} \hat{i} + \dv[2]{y'}{t} \hat{j} + \dv[2]{z'}{t} \hat{k}
+\end{align*}
+\[ \vec{a}_i = \vec{a}_r + \vec{\Omega} \cross \vec{v}_r + \dv{\vec{\Omega}}{t} \cross \vec{r} + \vec{\Omega} \cross (\vec{v}_r +\vec{\Omega} \cross \vec{r}) \]
+\begin{align*}
+	\vec{a}_i &= \vec{a}_r + 2 \vec{\Omega} \cross \vec{v}_r + \vec{\Omega} \cross (\vec{\Omega} \cross \vec{r}) + \dv{\vec{\Omega}}{t} \cross \vec{r} \\
+	\vec{a}_r &= \vec{a}_i - 2 \vec{\Omega} \cross \vec{v}_r - \vec{\Omega} \cross (\vec{\Omega} \cross \vec{r}) - \dv{\vec{\Omega}}{t} \cross \vec{r}
+\end{align*}
+\[ m \vec{a}_r = m \vec{a}_i - 2 m \vec{\Omega} \cross \vec{v}_r - m \vec{\Omega} \cross (\vec{\Omega} \cross \vec{r}) - m \dv{\vec{\Omega}}{t} \cross \vec{r} \]
+\begin{align*}
+	\vec{F}_r &= m \vec{a}_r \\
+	\vec{F}_{\text{imp}} &= m \vec{a}_i \\
+	\vec{F}_{\text{centrifugal}} &= - m \vec{\Omega} \cross (\vec{\Omega}
+	\cross \vec{r}) \\
+	\vec{F}_{\text{Coriolis}} &= - 2 m \vec{\Omega} \cross \vec{v}_r \\
+	\vec{F}_{\text{Euler}} &= - m \dv{\vec{\Omega}}{t} \cross \vec{r}
+\end{align*}
+\[\vec{F}_r = \vec{F}_{\text{imp}} + \vec{F}_{\text{centrifugal}} + \vec{F}_{\text{Coriolis}} + \vec{F}_{\text{Euler}} \]
+
+\end{document}
