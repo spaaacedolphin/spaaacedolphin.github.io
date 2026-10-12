@@ -52,13 +52,13 @@ Let $\vec{r} = \begin{pmatrix} x \\ y \end{pmatrix}$ and $D = \left\{ \begin{pma
 
 \subsection{Translation}
 
-For a translation vector $\Delta \vec{r} = \begin{pmatrix} \Delta x \\ \Delta y \end{pmatrix}$, the translation mapping is $T_{\Delta \vec{r}}(\vec{r}) = \vec{r} + \Delta \vec{r}$.
+For a translation vector $\vec{v} = \begin{pmatrix} a \\ b \end{pmatrix}$, the translation mapping is $T_{\vec{v}}(\vec{r}) = \vec{r} + \vec{v}$.
 
 \begin{align*}
-  D_T &= \left\{ \begin{pmatrix} x \\ y \end{pmatrix} \;\middle|\; f(x - \Delta x, y - \Delta y) = 0 \right\} \\[1ex]
-  \vec{u} &= \begin{pmatrix} x' \\ y' \end{pmatrix} = \begin{pmatrix} x - \Delta x \\ y - \Delta y \end{pmatrix} = \vec{r} - \Delta \vec{r} = T_{-\Delta \vec{r}}(\vec{r}) \\[1ex]
-  \vec{r} &= \vec{u} + \Delta \vec{r} = T_{\Delta \vec{r}}(\vec{u}) \\[1ex]
-  D_T &= \left\{ T_{\Delta \vec{r}}\left( \begin{pmatrix} x' \\ y' \end{pmatrix} \right) \;\middle|\; f(x', y') = 0 \right\} = T_{\Delta \vec{r}}(D)
+  D_T &= \left\{ \begin{pmatrix} x \\ y \end{pmatrix} \;\middle|\; f(x - a, y - b) = 0 \right\} \\[1ex]
+  \vec{u} &= \begin{pmatrix} x' \\ y' \end{pmatrix} = \begin{pmatrix} x - a \\ y - b \end{pmatrix} = \vec{r} - \vec{v} = T_{-\vec{v}}(\vec{r}) \\[1ex]
+  \vec{r} &= \vec{u} + \vec{v} = T_{\vec{v}}(\vec{u}) \\[1ex]
+  D_T &= \left\{ T_{\vec{v}}\left( \begin{pmatrix} x' \\ y' \end{pmatrix} \right) \;\middle|\; f(x', y') = 0 \right\} = T_{\vec{v}}(D)
 \end{align*}
 
 \subsection{Scaling}

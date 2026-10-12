@@ -4,7 +4,12 @@
 \usepackage{amssymb}
 \usepackage{physics}
 
+\title{Rotating reference frame}
+\author{}
+\date{}
 \begin{document}
+
+\maketitle
 
 \begin{align*}
 	\vec{r} (t) &= x (t) \hat{x} + y (t) \hat{y} + z (t) \hat{z} \\
@@ -40,10 +45,10 @@ Here, $\hat{i},\hat{j},\hat{k}$ are time-dependent, rotating unit vectors.
 \end{align*}
 \[ \vec{a}_i = \vec{a}_r + \vec{\Omega} \cross \vec{v}_r + \dv{\vec{\Omega}}{t} \cross \vec{r} + \vec{\Omega} \cross (\vec{v}_r +\vec{\Omega} \cross \vec{r}) \]
 \begin{align*}
-	\vec{a}_i &= \vec{a}_r + 2 \vec{\Omega} \cross \vec{v}_r + \vec{\Omega} \cross (\vec{\Omega} \cross \vec{r}) + \dv{\vec{\Omega}}{t} \cross \vec{r} \\
-	\vec{a}_r &= \vec{a}_i - 2 \vec{\Omega} \cross \vec{v}_r - \vec{\Omega} \cross (\vec{\Omega} \cross \vec{r}) - \dv{\vec{\Omega}}{t} \cross \vec{r}
+	\vec{a}_i &= \vec{a}_r + \vec{\Omega} \cross (\vec{\Omega} \cross \vec{r}) + 2 \vec{\Omega} \cross \vec{v}_r + \dv{\vec{\Omega}}{t} \cross \vec{r} \\
+	\vec{a}_r &= \vec{a}_i - \vec{\Omega} \cross (\vec{\Omega} \cross \vec{r}) - 2 \vec{\Omega} \cross \vec{v}_r - \dv{\vec{\Omega}}{t} \cross \vec{r}
 \end{align*}
-\[ m \vec{a}_r = m \vec{a}_i - 2 m \vec{\Omega} \cross \vec{v}_r - m \vec{\Omega} \cross (\vec{\Omega} \cross \vec{r}) - m \dv{\vec{\Omega}}{t} \cross \vec{r} \]
+\[ m \vec{a}_r = m \vec{a}_i - m \vec{\Omega} \cross (\vec{\Omega} \cross \vec{r}) - 2 m \vec{\Omega} \cross \vec{v}_r - m \dv{\vec{\Omega}}{t} \cross \vec{r} \]
 \begin{align*}
 	\vec{F}_r &= m \vec{a}_r \\
 	\vec{F}_{\text{imp}} &= m \vec{a}_i \\
